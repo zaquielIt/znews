@@ -124,13 +124,13 @@ export const getNews = (language, country, category, source, tabNews, tagsArticl
     listWords = "&q=(" + listWords.replace(",","") + ")"
     //dispatch(getNewsSuccess(articles));
     if (tabNews === "topNews") {
-      axios.get(`/top-headlines?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam+sourcesParam).then((res) => {
+      axios.get(`https://newsapi.org/v2/top-headlines?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam+sourcesParam).then((res) => {
         dispatch(getNewsSuccess(res.data));
     }).catch(err => {
       getNewsFailed(dispatch, err);
     });
     } else {
-      axios.get(`/everything?apiKey=` + token + "&pageSize=100"+listWords+languageParam+categoryParam+sourcesParam+'&sortBy=popularity').then((res) => {
+      axios.get(`https://newsapi.org/v2/everything?apiKey=` + token + "&pageSize=100"+listWords+languageParam+categoryParam+sourcesParam+'&sortBy=popularity').then((res) => {
         dispatch(getNewsSuccess(res.data));
     }).catch(err => {
       getNewsFailed(dispatch, err);
