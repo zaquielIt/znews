@@ -122,6 +122,7 @@ class News extends Component {
               data={categories}
               updateSelectedValue={this.updateNewsParams}
               defaultValue={category}
+              disabled={tabNews === 'articles'}
             />
             <Section
               title="Sources"

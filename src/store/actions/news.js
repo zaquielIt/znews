@@ -130,10 +130,11 @@ export const getNews = (language, country, category, source, tabNews, tagsArticl
       getNewsFailed(dispatch, err);
     });
     } else {
-      axios.get(`https://newsapi.org/v2/everything?apiKey=` + token + "&pageSize=100"+listWords+languageParam+categoryParam+sourcesParam+'&sortBy=popularity').then((res) => {
+      axios.get(`https://newsapi.org/v2/everything?apiKey=` + token + "&pageSize=100"+listWords+languageParam+sourcesParam+'&sortBy=popularity').then((res) => {
         dispatch(getNewsSuccess(res.data));
-    }).catch(err => {
-      getNewsFailed(dispatch, err);
+    }).catch(error => {
+      console.log(error);
+      dispatch(getNewsFailed(error));
     });
     }
   };

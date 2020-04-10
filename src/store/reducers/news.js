@@ -13,77 +13,114 @@ const initialState = {
   error: null,
 };
 
+const saveStore = (state) => {
+  sessionStorage.setItem("newsStore", JSON.stringify(state));
+};
+
+const loadStore = () => {
+  return JSON.parse(sessionStorage.getItem("newsStore"));
+};
+
 export default (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case actions.SET_TAGS_ARTICLES:
-      return {
+      newState = {
         ...state,
         tagsArticles: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.SET_TABNEWS:
-      return {
+      newState = {
         ...state,
         tabNews: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.SET_SOURCE:
-      return {
+      newState = {
         ...state,
         source: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.SET_CATEGORY:
-      return {
+      newState = {
         ...state,
         category: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.SET_COUNTRY:
-      return {
+      newState = {
         ...state,
         country: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.SET_LANGUAGE:
-      return {
+      newState = {
         ...state,
         language: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.GET_SOURCES_START:
-      return {
+      newState = {
         ...state,
         loadingSources: true,
         sources: null,
       };
+      saveStore(newState);
+      return newState;
     case actions.GET_SOURCES_SUCCESS:
-      return {
+      newState = {
         ...state,
         loadingSources: false,
         sources: action.payload,
         source: "All",
       };
+      saveStore(newState);
+      return newState;
     case actions.GET_SOURCES_FAILED:
-      return {
+      newState = {
         ...state,
         loadingSources: false,
         error: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.GET_NEWS_START:
-      return {
+      newState = {
         ...state,
         loadingNews: true,
         news: null,
       };
+      saveStore(newState);
+      return newState;
     case actions.GET_NEWS_SUCCESS:
-      return {
+      newState = {
         ...state,
         loadingNews: false,
-        news: action.payload
+        news: action.payload,
       };
+      saveStore(newState);
+      return newState;
     case actions.GET_NEWS_FAILED:
-      return {
+      newState = {
         ...state,
         loadingNews: false,
         news: null,
         error: action.payload,
       };
+      saveStore(newState);
+      return newState;
     default:
+      const storeSaved = loadStore();
+      if (storeSaved) {
+        return storeSaved;
+      }
       return state;
   }
 };

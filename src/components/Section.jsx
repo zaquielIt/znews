@@ -1,7 +1,12 @@
 import React from "react";
 import "./Section.css";
-import { FilterOutlined, GlobalOutlined, FlagOutlined, DeploymentUnitOutlined } from '@ant-design/icons';
-import { Radio, Menu, Spin, Empty, Tag } from "antd";
+import {
+  FilterOutlined,
+  GlobalOutlined,
+  FlagOutlined,
+  DeploymentUnitOutlined,
+} from "@ant-design/icons";
+import { Radio, Menu, Spin, Empty, Tag, Alert } from "antd";
 
 const { SubMenu } = Menu;
 
@@ -12,7 +17,7 @@ class Section extends React.Component {
   };
 
   render() {
-    const { data, title, loadingSources, defaultValue } = this.props;
+    const { data, title, loadingSources, defaultValue, disabled } = this.props;
     return data ? (
       loadingSources && title === "Sources" ? (
         <Spin />
@@ -21,12 +26,16 @@ class Section extends React.Component {
           <SubMenu
             title={
               <div>
-                {title === 'Categories' && <FilterOutlined />}
-                {title === 'Countries' && <GlobalOutlined />}
-                {title === 'Languages' && <FlagOutlined />}
-                {title === 'Sources' && <DeploymentUnitOutlined />}
-                <span style={{marginRight: '5px'}}>{title}</span>
-                <Tag color="blue">{defaultValue}</Tag>
+                {title === "Categories" && <FilterOutlined />}
+                {title === "Countries" && <GlobalOutlined />}
+                {title === "Languages" && <FlagOutlined />}
+                {title === "Sources" && <DeploymentUnitOutlined />}
+                <span style={{ marginRight: "5px" }}>{title}</span>
+                {disabled ? (
+                  <Tag color="gold">only "Top news" tab allows you select a category</Tag>
+                ) : (
+                  <Tag color="cyan">{defaultValue}</Tag>
+                )}
               </div>
             }
           >
@@ -45,6 +54,7 @@ class Section extends React.Component {
                     key={title + "-" + pos}
                     value={title === "Sources" ? elem.id : elem}
                     onChange={this.onChange}
+                    disabled={disabled}
                   >
                     {title === "Sources" ? elem.name : elem}
                   </Radio.Button>
@@ -59,11 +69,3 @@ class Section extends React.Component {
 }
 
 export default Section;
-
-/*
-<Card title={title} >
-        <Radio.Group defaultValue="a" size="large"
-        />
-        {data.map(elem => <Radio.Button value={elem} >{elem}</Radio.Button>)}
-      </Card>
-*/
