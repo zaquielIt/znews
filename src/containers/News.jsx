@@ -57,7 +57,7 @@ class News extends Component {
         }
       } else {
         this.getSources(language, country, category);
-        this.getNews(language, country, category, source, tabNews);
+        this.getNews(language, country, category, source, tabNews,tagsArticles);
       }
     }
   };

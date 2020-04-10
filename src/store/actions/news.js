@@ -90,12 +90,12 @@ export const getSources = (language, country, category) => {
       categoryParam = "&category=" + category;
     }
 
-    dispatch(getSourcesSuccess(sources.sources));
-    /*axios.get(`/sources?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam).then((res) => {
+    //dispatch(getSourcesSuccess(sources.sources));
+    axios.get(`/sources?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam).then((res) => {
       dispatch(getSourcesSuccess(res.data.sources));
     }).catch(err => {
       getSourcesFailed(dispatch, err);
-    });*/
+    });
   };
 };
 
@@ -122,8 +122,8 @@ export const getNews = (language, country, category, source, tabNews, tagsArticl
     let listWords = tagsArticles.map((tag,pos) => pos+1 ===tagsArticles.length ? tag : tag + ' AND ');
     listWords = listWords.toString();
     listWords = "&q=(" + listWords.replace(",","") + ")"
-    dispatch(getNewsSuccess(articles));
-    /*if (tabNews === "topNews") {
+    //dispatch(getNewsSuccess(articles));
+    if (tabNews === "topNews") {
       axios.get(`/top-headlines?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam+sourcesParam).then((res) => {
         dispatch(getNewsSuccess(res.data));
     }).catch(err => {
@@ -135,6 +135,6 @@ export const getNews = (language, country, category, source, tabNews, tagsArticl
     }).catch(err => {
       getNewsFailed(dispatch, err);
     });
-    }*/
+    }
   };
 };

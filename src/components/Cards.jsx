@@ -54,7 +54,7 @@ class Cards extends React.Component {
           tab={
             defaultValue === "topNews" ? (
               <Badge
-                count={news ? news.articles.length : 0}
+                count={news && news.articles ? news.articles.length : 0}
                 offset={[15, -5]}
                 overflowCount={100}
               >
@@ -66,9 +66,9 @@ class Cards extends React.Component {
           }
           key="topNews"
         >
-          {loadingNews || !news ? (
+          {loadingNews || !news || !news.articles ? (
             <Spin />
-          ) : news.articles.length === 0 ? (
+          ) : news && news.articles && news.articles.length === 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             this.tabWithNews(news.articles)
@@ -78,7 +78,7 @@ class Cards extends React.Component {
           tab={
             defaultValue === "articles" ? (
               <Badge
-                count={news ? news.articles.length : 0}
+                count={news && news.articles ? news.articles.length : 0}
                 offset={[15, -5]}
                 overflowCount={100}
               >
@@ -90,7 +90,7 @@ class Cards extends React.Component {
           }
           key="articles"
         >
-          {loadingNews || !news ? (
+          {loadingNews || !news || !news.articles ? (
             <Spin />
           ) : news.articles.length === 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
