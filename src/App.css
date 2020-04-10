@@ -2,14 +2,16 @@
 
 .ant-page-header-heading {
   color: #FFFFFF;
-
+  height: inherit;
 }
 .ant-page-header-heading-title {
   color: #FFFFFF;
+  padding-top: 15px;
 }
 
 .ant-page-header-heading-sub-title {
   color: #FFFFFF;
+  padding-top: 16px;
 }
 
 .znews-footer {

@@ -15,7 +15,8 @@ export const actions = {
   SET_CATEGORY: "SET_CATEGORY",
   SET_SOURCE: "SET_SOURCE",
   SET_TABNEWS: "SET_TABNEWS",
-  SET_TAGS_ARTICLES: "SET_TAGS_ARTICLES"
+  SET_TAGS_ARTICLES: "SET_TAGS_ARTICLES",
+  SET_REQUESTS_NEWSAPI: "SET_REQUESTS_NEWSAPI",
 };
 
 export const getNewsStart = () => ({
@@ -29,6 +30,11 @@ export const getNewsSuccess = (response) => ({
 export const getNewsFailed = (error) => ({
   type: actions.GET_NEWS_FAILED,
   payload: error,
+});
+
+export const setRequestsNewsAPI = (newRequestsValue) => ({
+  type: actions.SET_REQUESTS_NEWSAPI,
+  payload: newRequestsValue,
 });
 
 export const setTagsArticles = (newTagsArticles) => ({
@@ -91,15 +97,59 @@ export const getSources = (language, country, category) => {
     }
 
     //dispatch(getSourcesSuccess(sources.sources));
-    axios.get(`/sources?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam).then((res) => {
-      dispatch(getSourcesSuccess(res.data.sources));
-    }).catch(err => {
-      getSourcesFailed(dispatch, err);
-    });
+    axios
+      .get(
+        `https://newsapi.org/v2/sources?apiKey=` +
+          token +
+          "&pageSize=100" +
+          languageParam +
+          countryParam +
+          categoryParam
+      )
+      .then((res) => {
+        dispatch(getSourcesSuccess(res.data.sources));
+      })
+      .catch((error) => {
+        dispatch(getSourcesFailed(error));
+      });
   };
 };
 
-export const getNews = (language, country, category, source, tabNews, tagsArticles) => {
+export const updateRequestsNewsAPI = (newValue) => {
+  return (dispatch) => {
+    axios
+      .get("https://znews-273807.firebaseio.com/znews.json")
+      .then((res) => {
+        const response = res.data.requestsNewsAPI;
+        const date = new Date();
+        const fullDay =
+          date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+        let requestsValue = newValue;
+        if (fullDay === response.day) {
+          requestsValue = response.value + newValue;
+        }
+        axios
+          .put("https://znews-273807.firebaseio.com/znews.json", {
+            requestsNewsAPI: {
+              day: fullDay,
+              value: requestsValue,
+            },
+          })
+          .then((response) => {
+            dispatch(setRequestsNewsAPI(parseInt(response.data.requestsNewsAPI.value)));
+          });
+      })
+  };
+};
+
+export const getNews = (
+  language,
+  country,
+  category,
+  source,
+  tabNews,
+  tagsArticles
+) => {
   return (dispatch) => {
     dispatch(getNewsStart());
     let languageParam = "";
@@ -107,35 +157,59 @@ export const getNews = (language, country, category, source, tabNews, tagsArticl
       languageParam = "&language=" + language;
     }
     let countryParam = "";
-    if (country !== "All" && source === 'All') {
+    if (country !== "All" && source === "All") {
       countryParam = "&country=" + country;
     }
     let categoryParam = "";
-    if (category !== "All" && source === 'All') {
+    if (category !== "All" && source === "All") {
       categoryParam = "&category=" + category;
     }
     let sourcesParam = "";
     if (source !== "All") {
       sourcesParam = "&sources=" + source;
     }
-    
-    let listWords = tagsArticles.map((tag,pos) => pos+1 ===tagsArticles.length ? tag : tag + ' AND ');
+
+    let listWords = tagsArticles.map((tag, pos) =>
+      pos + 1 === tagsArticles.length ? tag : tag + " AND "
+    );
     listWords = listWords.toString();
-    listWords = "&q=(" + listWords.replace(",","") + ")"
+    listWords = "&q=(" + listWords.replace(",", "") + ")";
     //dispatch(getNewsSuccess(articles));
     if (tabNews === "topNews") {
-      axios.get(`https://newsapi.org/v2/top-headlines?apiKey=` + token + "&pageSize=100"+languageParam+countryParam+categoryParam+sourcesParam).then((res) => {
-        dispatch(getNewsSuccess(res.data));
-    }).catch(err => {
-      getNewsFailed(dispatch, err);
-    });
+      axios
+        .get(
+          `https://newsapi.org/v2/top-headlines?apiKey=` +
+            token +
+            "&pageSize=100" +
+            languageParam +
+            countryParam +
+            categoryParam +
+            sourcesParam
+        )
+        .then((res) => {
+          dispatch(getNewsSuccess(res.data));
+        })
+        .catch((error) => {
+          dispatch(getNewsFailed(error));
+        });
     } else {
-      axios.get(`https://newsapi.org/v2/everything?apiKey=` + token + "&pageSize=100"+listWords+languageParam+sourcesParam+'&sortBy=popularity').then((res) => {
-        dispatch(getNewsSuccess(res.data));
-    }).catch(error => {
-      console.log(error);
-      dispatch(getNewsFailed(error));
-    });
+      axios
+        .get(
+          `https://newsapi.org/v2/everything?apiKey=` +
+            token +
+            "&pageSize=100" +
+            listWords +
+            languageParam +
+            sourcesParam +
+            "&sortBy=popularity"
+        )
+        .then((res) => {
+          dispatch(getNewsSuccess(res.data));
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(getNewsFailed(error));
+        });
     }
   };
 };

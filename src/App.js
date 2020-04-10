@@ -1,22 +1,20 @@
 import React, { Component } from "react";
 import "./App.css";
-
 import News from "./containers/News";
+import HeaderContainer from "./containers/Header";
 import { Layout, Typography, PageHeader } from "antd";
 const { Text } = Typography;
+
 
 const { Header, Footer, Content } = Layout;
 //<DingtalkOutlined />
 class App extends Component {
+
   render() {
     return (
       <Layout>
         <Header>
-          <PageHeader
-            className="site-page-header"
-            title="ZNEWS"
-            subTitle=" Global News Page"
-          />
+          <HeaderContainer />
         </Header>
         <Content className="site-layout-content">
           <News />

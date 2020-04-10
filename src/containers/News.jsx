@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  updateRequestsNewsAPI,
   getNews,
   getSources,
   setCountry,
@@ -18,9 +19,10 @@ const { Sider } = Layout;
 
 class News extends Component {
   componentDidMount() {
-    const { language, country, category, source, tabNews, tagsArticles } = this.props;
+    const { language, country, category, source, tabNews, tagsArticles, updateRequestsNews } = this.props;
     this.getSources(language, country, category);
     this.getNews(language, country, category, source, tabNews, tagsArticles);
+    updateRequestsNews(2);
   }
 
   getSources = (language, country, category, source) => {
@@ -41,7 +43,8 @@ class News extends Component {
       source,
       tabNews,
       loadingNews,
-      tagsArticles
+      tagsArticles,
+      updateRequestsNews
     } = this.props;
     if (
       language !== prevProps.language ||
@@ -54,10 +57,12 @@ class News extends Component {
       if (source !== prevProps.source || tagsArticles !== prevProps.tagsArticles || tabNews !== prevProps.tabNews) {
         if (loadingNews === prevProps.loadingNews) {
           this.getNews(language, country, category, source, tabNews, tagsArticles);
+          updateRequestsNews(1);
         }
       } else {
         this.getSources(language, country, category);
         this.getNews(language, country, category, source, tabNews,tagsArticles);
+        updateRequestsNews(2);
       }
     }
   };
@@ -171,6 +176,8 @@ const mapDispatchToProps = (dispatch) => ({
   setNewCategory: (newCategory) => dispatch(setCategory(newCategory)),
   setNewSource: (newSource) => dispatch(setSource(newSource)),
   setNewTab: (newTab) => dispatch(setTabnews(newTab)),
+  updateRequestsNews: (newRequests) => dispatch(updateRequestsNewsAPI(newRequests)),
+  
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(News);
