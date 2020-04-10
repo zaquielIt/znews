@@ -1,0 +1,17 @@
+.ant-layout-sider-children {
+    background-color: #FFFFFF;
+}
+
+.ant-timeline-item-last .ant-timeline-item-content{
+    min-height: 0px;
+}
+
+.ant-timeline {
+    background-color: #FFFFFF;
+    margin-top: 20px;
+    margin-left: 12px;
+}
+
+.ant-timeline-item {
+    padding-bottom: 26px;
+}
