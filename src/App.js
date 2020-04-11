@@ -1,15 +1,20 @@
+//React import
 import React, { Component } from "react";
+//stye
 import "./App.css";
-import News from "./containers/News";
+//Containers and Components
+import NewsPage from "./containers/NewsPage";
 import HeaderContainer from "./containers/Header";
-import { Layout, Typography, PageHeader } from "antd";
+//"antd" elements
+import { Layout, Typography } from "antd";
+
 const { Text } = Typography;
-
-
 const { Header, Footer, Content } = Layout;
-//<DingtalkOutlined />
+
+
 class App extends Component {
 
+  //Render basic App layouts
   render() {
     return (
       <Layout>
@@ -17,7 +22,7 @@ class App extends Component {
           <HeaderContainer />
         </Header>
         <Content className="site-layout-content">
-          <News />
+          <NewsPage />
         </Content>
         <Footer className="znews-footer" style={{ textAlign: "center" }}>
           <Text type="secondary" style={{ float: "left" }}>

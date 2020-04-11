@@ -1,8 +1,12 @@
+//imports to call services
 import axios from "axios";
 import { token } from "constants/api";
-import sources from "mockups/sources.json";
-import articles from "mockups/articles.json";
 
+//mockups
+//import sources from "mockups/sources.json";
+//import articles from "mockups/articles.json";
+
+// actions list
 export const actions = {
   GET_NEWS_START: "GET_NEWS_START",
   GET_NEWS_SUCCESS: "GET_NEWS_SUCCESS",
@@ -117,28 +121,28 @@ export const getSources = (language, country, category) => {
 
 export const updateRequestsNewsAPI = (newValue) => {
   return (dispatch) => {
-    axios
-      .get("https://znews-273807.firebaseio.com/znews.json")
-      .then((res) => {
-        const response = res.data.requestsNewsAPI;
-        const date = new Date();
-        const fullDay =
-          date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-        let requestsValue = newValue;
-        if (fullDay === response.day) {
-          requestsValue = response.value + newValue;
-        }
-        axios
-          .put("https://znews-273807.firebaseio.com/znews.json", {
-            requestsNewsAPI: {
-              day: fullDay,
-              value: requestsValue,
-            },
-          })
-          .then((response) => {
-            dispatch(setRequestsNewsAPI(parseInt(response.data.requestsNewsAPI.value)));
-          });
-      })
+    axios.get("https://znews-273807.firebaseio.com/znews.json").then((res) => {
+      const response = res.data.requestsNewsAPI;
+      const date = new Date();
+      const fullDay =
+        date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+      let requestsValue = newValue;
+      if (fullDay === response.day) {
+        requestsValue = response.value + newValue;
+      }
+      axios
+        .put("https://znews-273807.firebaseio.com/znews.json", {
+          requestsNewsAPI: {
+            day: fullDay,
+            value: requestsValue,
+          },
+        })
+        .then((response) => {
+          dispatch(
+            setRequestsNewsAPI(parseInt(response.data.requestsNewsAPI.value))
+          );
+        });
+    });
   };
 };
 

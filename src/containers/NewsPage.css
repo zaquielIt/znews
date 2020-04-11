@@ -1,5 +1,7 @@
 .ant-layout-sider-children {
     background-color: #FFFFFF;
+    padding-top: 12px;
+    border-bottom: 1px solid #f0f2f5;
 }
 
 .ant-timeline-item-last .ant-timeline-item-content{
@@ -14,4 +16,8 @@
 
 .ant-timeline-item {
     padding-bottom: 26px;
+}
+
+.ant-timeline-item-last {
+    padding-bottom: 0px;
 }

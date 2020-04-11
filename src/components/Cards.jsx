@@ -1,11 +1,19 @@
+//basic import
 import React from "react";
 import { connect } from "react-redux";
+
+//style
 import "./Cards.css";
-import { Card, Tabs, Spin, Empty, Tooltip, Badge, Alert } from "antd";
+
+//Components
+import CardNew from "./CardNew";
 import Tags from "./Tags";
 
+// "antd" elements
+import { Tabs, Spin, Empty, Badge, Alert } from "antd";
+
+
 const { TabPane } = Tabs;
-const { Meta } = Card;
 
 class Cards extends React.Component {
   tabChanged = (newTab) => {
@@ -15,43 +23,14 @@ class Cards extends React.Component {
     }
   };
 
+  //render spin / empty view / news cards
   tabWithNews = (loadingNews, listNews) =>
     loadingNews || !listNews || !listNews.articles ? (
       <Spin />
     ) : listNews.articles.length === 0 ? (
       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
     ) : (
-      listNews.articles.map((card, pos) =>
-        card.urlToImage && card.title ? (
-          <Card
-            key={pos}
-            hoverable
-            style={{ width: 240, height: 450 }}
-            cover={
-              card.urlToImage ? (
-                <img alt={card.title} src={card.urlToImage} height="175" />
-              ) : null
-            }
-          >
-            <Meta
-              title={
-                <Tooltip title={card.title}>
-                  <a href={card.url}>{card.title}</a>
-                </Tooltip>
-              }
-              description={
-                <div>
-                  <span style={{ fontWeight: "bolder" }}>
-                    {card.source.name}
-                  </span>
-                  <div>{card.description}</div>
-                </div>
-              }
-              style={{ padding: "5px" }}
-            />
-          </Card>
-        ) : null
-      )
+      listNews.articles.map((card, pos) => <CardNew key={pos} card={card} />)
     );
 
   render() {
@@ -101,7 +80,10 @@ class Cards extends React.Component {
           key="articles"
         >
           {!error ? (
-            this.tabWithNews(loadingNews, news)
+            <>
+              <Tags />
+              {this.tabWithNews(loadingNews, news)}
+            </>
           ) : (
             <Alert
               message={error.code}

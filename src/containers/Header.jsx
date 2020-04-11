@@ -7,8 +7,6 @@ import { Progress, PageHeader } from "antd";
 class Header extends React.Component {
   render() {
     const { requestsNewsAPI } = this.props;
-    console.log("requestsNewsAPI");
-    console.log((requestsNewsAPI / 500) * 100);
     return (
       <PageHeader
         className="site-page-header"
@@ -18,7 +16,7 @@ class Header extends React.Component {
           <div style={{ width: 170 }}>
             <span>Global requests availables</span>
             <Progress
-              percent={(requestsNewsAPI / 500) * 100}
+              percent={((requestsNewsAPI / 500) * 100).toFixed(2)}
               size="small"
               status="active"
             />
