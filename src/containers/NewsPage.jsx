@@ -83,7 +83,8 @@ class NewsPage extends Component {
       //If has changed some param which it doesn't affect to the sources and news are not loading
       if (
         source !== prevProps.source ||
-        tagsArticles !== prevProps.tagsArticles ||
+        JSON.stringify(tagsArticles) !==
+          JSON.stringify(prevProps.tagsArticles) ||
         tabNews !== prevProps.tabNews
       ) {
         if (loadingNews === prevProps.loadingNews) {
@@ -122,7 +123,7 @@ class NewsPage extends Component {
       setNewSource,
       setNewTab,
       country,
-      getCovidInfo
+      getCovidInfo,
     } = this.props;
     switch (section) {
       case "Languages":
@@ -147,6 +148,38 @@ class NewsPage extends Component {
       default:
         break;
     }
+  };
+
+  disableFilterSection = (section) => {
+    const { language, country, category, source, tabNews } = this.props;
+    let disabledSection = { value: false, msg: null };
+    switch (section) {
+      case "Languages":
+        if (tabNews === "coronavirus") {
+          disabledSection.value = true;
+          disabledSection.msg = "Coronavirus tab doesn't have language filter";
+        } else if (country !== "All" || category !== "All") {
+          disabledSection.value = true;
+          disabledSection.msg =
+            "Country and category params prioritize above language param";
+        }
+        break;
+      case "Countries":
+        if (tabNews === "articles") {
+          disabledSection.value = true;
+          disabledSection.msg = "Countries param only can be used in topNews";
+        }
+        break;
+      case "Categories":
+        if (tabNews !== "topNews") {
+          disabledSection.value = true;
+          disabledSection.msg = "Categories param only can be used in topNews";
+        }
+        break;
+      default:
+        break;
+    }
+    return disabledSection;
   };
 
   //render method
@@ -191,6 +224,7 @@ class NewsPage extends Component {
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={language}
                   color="magenta"
+                  disabledSection={this.disableFilterSection("Languages")}
                 />
 
                 <Section
@@ -200,15 +234,15 @@ class NewsPage extends Component {
                   defaultValue={country}
                   color="cyan"
                   disabledES={tabNews === "topNews" || tabNews === "articles"}
-                  disabled={tabNews === "articles" }
+                  disabledSection={this.disableFilterSection("Countries")}
                 />
                 <Section
                   title="Categories"
                   data={categories}
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={category}
-                  disabled={tabNews !== "topNews"}
                   color="purple"
+                  disabledSection={this.disableFilterSection("Categories")}
                 />
                 <Section
                   title="Sources"
@@ -217,6 +251,7 @@ class NewsPage extends Component {
                   updateSelectedValue={this.updateNewsParams}
                   loadingSources={loadingSources}
                   color="gold"
+                  disabledSection={this.disableFilterSection("Sources")}
                 />
               </SubMenu>
             </Menu>

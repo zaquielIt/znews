@@ -22,7 +22,7 @@ class Section extends React.Component {
       title,
       loadingSources,
       defaultValue,
-      disabled,
+      disabledSection,
       color,
       disabledES,
     } = this.props;
@@ -36,9 +36,9 @@ class Section extends React.Component {
               {title === "Languages" && <FlagOutlined />}
               {title === "Sources" && <DeploymentUnitOutlined />}
               <span style={{ marginRight: "5px" }}>{title}</span>
-              {disabled ? (
+              {disabledSection.value ? (
                 <Tag color={color}>
-                  only "Top news" tab allows you select a category
+                  {disabledSection.msg}
                 </Tag>
               ) : (
                 <Tag color={color}>{defaultValue}</Tag>
@@ -53,7 +53,7 @@ class Section extends React.Component {
           ) : (
             <Radio.Group defaultValue={defaultValue} size="small">
               {title === "Categories" || title === "Languages" ? null : (
-                <Radio.Button value="All" onChange={this.onChange} disabled={disabled}>
+                <Radio.Button value="All" onChange={this.onChange} disabled={disabledSection.value}>
                   All
                 </Radio.Button>
               )}
@@ -64,7 +64,7 @@ class Section extends React.Component {
                     key={title + "-" + pos}
                     value={title === "Sources" ? elem.id : elem}
                     onChange={this.onChange}
-                    disabled={disabled || (disabledES && elem === "es")}
+                    disabled={disabledSection.value || (disabledES && elem === "es")}
                   >
                     {title === "Sources" ? elem.name : elem}
                   </Radio.Button>
