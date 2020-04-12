@@ -24,7 +24,7 @@ class App extends Component {
         <Content className="site-layout-content">
           <NewsPage />
         </Content>
-        <Footer className="znews-footer" style={{ textAlign: "center" }}>
+        <Footer style={{ textAlign: "center" }}>
           <Text type="secondary" style={{ float: "left" }}>
             Ant Design ©2018 Created by Ant UED
           </Text>

@@ -3,8 +3,8 @@ import axios from "axios";
 import { token } from "constants/api";
 
 //mockups
-//import sources from "mockups/sources.json";
-//import articles from "mockups/articles.json";
+import sources from "mockups/sources.json";
+import articles from "mockups/articles.json";
 
 // actions list
 export const actions = {
@@ -161,11 +161,11 @@ export const getNews = (
       languageParam = "&language=" + language;
     }
     let countryParam = "";
-    if (country !== "All" && source === "All") {
+    if (country !== "All" && source === "All" && tabNews === "topNews") {
       countryParam = "&country=" + country;
     }
     let categoryParam = "";
-    if (category !== "All" && source === "All") {
+    if (category !== "All" && source === "All"  && tabNews === "topNews") {
       categoryParam = "&category=" + category;
     }
     let sourcesParam = "";
@@ -211,7 +211,6 @@ export const getNews = (
           dispatch(getNewsSuccess(res.data));
         })
         .catch((error) => {
-          console.log(error);
           dispatch(getNewsFailed(error));
         });
     }

@@ -12,6 +12,7 @@ import {
   setSource,
   setTabnews,
 } from "store/actions/news";
+import { getCoronavirusInfo } from "store/actions/coronavirus";
 
 //style
 import "./NewsPage.css";
@@ -21,10 +22,10 @@ import { languages, countries, categories } from "constants/api";
 
 //Components
 import Section from "components/Section";
-import Cards from "components/Cards";
+import Tabs from "components/Tabs";
 
 //antd Elements
-import { Layout, Menu, Tag, Typography  } from "antd";
+import { Layout, Menu, Tag, Typography } from "antd";
 const { SubMenu } = Menu;
 const { Text } = Typography;
 
@@ -120,6 +121,8 @@ class NewsPage extends Component {
       setNewCategory,
       setNewSource,
       setNewTab,
+      country,
+      getCovidInfo
     } = this.props;
     switch (section) {
       case "Languages":
@@ -127,6 +130,7 @@ class NewsPage extends Component {
         break;
       case "Countries":
         setNewCountry(newValue);
+        getCovidInfo(newValue);
         break;
       case "Categories":
         setNewCategory(newValue);
@@ -135,6 +139,9 @@ class NewsPage extends Component {
         setNewSource(newValue);
         break;
       case "tabNews":
+        if (newValue === "topNews" && country === "es") {
+          setNewCountry("All");
+        }
         setNewTab(newValue);
         break;
       default:
@@ -192,13 +199,15 @@ class NewsPage extends Component {
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={country}
                   color="cyan"
+                  disabledES={tabNews === "topNews" || tabNews === "articles"}
+                  disabled={tabNews === "articles" }
                 />
                 <Section
                   title="Categories"
                   data={categories}
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={category}
-                  disabled={tabNews === "articles"}
+                  disabled={tabNews !== "topNews"}
                   color="purple"
                 />
                 <Section
@@ -213,7 +222,7 @@ class NewsPage extends Component {
             </Menu>
           </Layout>
         </Layout>
-        <Cards
+        <Tabs
           defaultValue={tabNews}
           updateSelectedValue={this.updateNewsParams}
         />
@@ -248,6 +257,7 @@ const mapDispatchToProps = (dispatch) => ({
   setNewTab: (newTab) => dispatch(setTabnews(newTab)),
   updateRequestsNews: (newRequests) =>
     dispatch(updateRequestsNewsAPI(newRequests)),
+  getCovidInfo: (country) => dispatch(getCoronavirusInfo(country)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsPage);

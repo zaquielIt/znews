@@ -6,7 +6,7 @@ import {
   FlagOutlined,
   DeploymentUnitOutlined,
 } from "@ant-design/icons";
-import { Radio, Menu, Spin, Empty, Tag, Alert } from "antd";
+import { Radio, Menu, Spin, Empty, Tag, Alert, Tooltip } from "antd";
 
 const { SubMenu } = Menu;
 
@@ -17,7 +17,15 @@ class Section extends React.Component {
   };
 
   render() {
-    const { data, title, loadingSources, defaultValue, disabled,color } = this.props;
+    const {
+      data,
+      title,
+      loadingSources,
+      defaultValue,
+      disabled,
+      color,
+      disabledES,
+    } = this.props;
     return (
       <Menu mode="inline">
         <SubMenu
@@ -45,20 +53,22 @@ class Section extends React.Component {
           ) : (
             <Radio.Group defaultValue={defaultValue} size="small">
               {title === "Categories" || title === "Languages" ? null : (
-                <Radio.Button value="All" onChange={this.onChange}>
+                <Radio.Button value="All" onChange={this.onChange} disabled={disabled}>
                   All
                 </Radio.Button>
               )}
 
               {data.map((elem, pos) => (
-                <Radio.Button
-                  key={title + "-" + pos}
-                  value={title === "Sources" ? elem.id : elem}
-                  onChange={this.onChange}
-                  disabled={disabled}
-                >
-                  {title === "Sources" ? elem.name : elem}
-                </Radio.Button>
+                <Tooltip title={(disabledES && elem === "es") && "disabled for news tab"}>
+                  <Radio.Button
+                    key={title + "-" + pos}
+                    value={title === "Sources" ? elem.id : elem}
+                    onChange={this.onChange}
+                    disabled={disabled || (disabledES && elem === "es")}
+                  >
+                    {title === "Sources" ? elem.name : elem}
+                  </Radio.Button>
+                </Tooltip>
               ))}
             </Radio.Group>
           )}

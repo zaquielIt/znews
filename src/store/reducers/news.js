@@ -8,7 +8,7 @@ const initialState = {
   country: "All",
   category: "All",
   source: "All",
-  sources: null,
+  sources: [],
   loadingNews: false,
   news: null,
   loadingSources: false,
@@ -78,6 +78,7 @@ export default (state = initialState, action) => {
     case actions.GET_SOURCES_START:
       newState = {
         ...state,
+        error: null,
         loadingSources: true,
         sources: null,
       };
@@ -103,6 +104,7 @@ export default (state = initialState, action) => {
     case actions.GET_NEWS_START:
       newState = {
         ...state,
+        error: null,
         loadingNews: true,
         news: null,
       };
