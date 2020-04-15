@@ -89,6 +89,7 @@ class Covid19 extends React.Component {
               <Sider>
                 <Layout>
                   <Checkbox
+                    style={{ paddingLeft: "8px" }}
                     value={{ name: "indexYDailyCases", color: "#EEB029" }}
                     onChange={this.onChange}
                     checked={

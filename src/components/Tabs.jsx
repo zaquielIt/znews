@@ -2,9 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Layout } from "antd";
-
-import coronavirus from "mockups/coronavirus.json";
+import fakeCards from "mockups/fakeCardsNews.json";
 
 //style
 import "./Tabs.css";
@@ -12,14 +10,10 @@ import "./Tabs.css";
 //Components
 import CardNew from "./CardNew";
 import Tags from "./Tags";
-import Covid19 from './Covid19';
-
-import * as d3 from "d3";
-import BarChartComplete from "./graphics/BarChartComplete";
-import LineChart from "./graphics/LineChart";
+import Covid19 from "./Covid19";
 
 // "antd" elements
-import { Tabs, Spin, Empty, Badge, Alert } from "antd";
+import { Tabs, Spin, Empty, Badge, Alert, BackTop } from "antd";
 const { TabPane } = Tabs;
 
 class Cards extends React.Component {
@@ -33,50 +27,22 @@ class Cards extends React.Component {
   //render spin / empty view / news cards
   tabWithNews = (loadingNews, listNews) =>
     loadingNews || !listNews || !listNews.articles ? (
-      <Spin />
+      fakeCards.articles.map((card, pos) => (
+        <CardNew key={pos} card={card} loading={loadingNews} />
+      ))
     ) : listNews.articles.length === 0 ? (
       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
     ) : (
-      listNews.articles.map((card, pos) => <CardNew key={pos} card={card} />)
+      <>
+        <BackTop />
+        {listNews.articles.map((card, pos) => (
+          <CardNew key={pos} card={card} loading={loadingNews} />
+        ))}
+      </>
     );
-
-  parseCoronavirusData = () =>
-    coronavirus.data.map((dayData, pos) => ({
-      indexY:
-        pos === 0
-          ? dayData.Cases
-          : dayData.Cases - coronavirus.data[pos - 1].Cases,
-      indexX: dayData.Date.substring(5,10),
-    }));
-
-  getBarChart = () => {
-    const dataParsed = this.parseCoronavirusData();
-    const dataReduced = dataParsed.slice(
-      dataParsed.length - 31,
-      dataParsed.length
-    );
-
-    const dataReduced2 = dataParsed.slice(
-      dataParsed.length - 62,
-      dataParsed.length - 31
-    );
-
-    return (
-      <BarChartComplete
-        data={dataReduced}
-        width={1000}
-        height={300}
-        top={20}
-        bottom={30}
-        left={40}
-        right={0}
-      />
-    );
-  };
 
   render() {
     const { defaultValue, loadingNews, news, error } = this.props;
-    const dataParsed = this.parseCoronavirusData();
     return (
       <Tabs defaultActiveKey={defaultValue} onTabClick={this.tabChanged}>
         <TabPane

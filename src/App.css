@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+.site-layout-content {
+  height: 80%
+}
+
 .ant-page-header-heading {
   color: #FFFFFF;
   height: inherit;
