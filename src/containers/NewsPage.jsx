@@ -176,6 +176,12 @@ class NewsPage extends Component {
           disabledSection.msg = "Categories param only can be used in topNews";
         }
         break;
+      case "Sources":
+        if (tabNews === "coronavirus") {
+          disabledSection.value = true;
+          disabledSection.msg = "Coronavirus tab doesn't have sources filter";
+        }
+        break;
       default:
         break;
     }
