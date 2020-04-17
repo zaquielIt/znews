@@ -1,9 +1,12 @@
+//React imports
 import React, { Component } from "react";
+
+//Redux imports
 import { connect } from "react-redux";
+import { getTranslate, withLocalize } from "react-localize-redux";
 
 //import news actions
 import {
-  updateRequestsNewsAPI,
   getNews,
   getSources,
   setCountry,
@@ -12,17 +15,19 @@ import {
   setSource,
   setTabnews,
 } from "store/actions/news";
-import { getCoronavirusInfo } from "store/actions/coronavirus";
 
-//style
-import "./NewsPage.css";
+//import coronavirus actions
+import { getCoronavirusInfo } from "store/actions/coronavirus";
 
 //constants
 import { languages, countries, categories } from "constants/api";
 
 //Components
-import Section from "components/Section";
+import FilterSection from "components/FilterSection";
 import Tabs from "components/Tabs";
+
+//style
+import "./NewsPage.css";
 
 //antd Elements
 import { Layout, Menu, Tag, Typography } from "antd";
@@ -39,11 +44,9 @@ class NewsPage extends Component {
       source,
       tabNews,
       tagsArticles,
-      updateRequestsNews,
     } = this.props;
     this.getSources(language, country, category);
     this.getNews(language, country, category, source, tabNews, tagsArticles);
-    updateRequestsNews(2);
   }
 
   //get sources - call to redux action
@@ -68,7 +71,6 @@ class NewsPage extends Component {
       tabNews,
       loadingNews,
       tagsArticles,
-      updateRequestsNews,
     } = this.props;
 
     //get new data if some param has changed
@@ -80,7 +82,7 @@ class NewsPage extends Component {
       tabNews !== prevProps.tabNews ||
       tagsArticles !== prevProps.tagsArticles
     ) {
-      //If has changed some param which it doesn't affect to the sources and news are not loading
+      //Update news or sources if user has updated one of the filters or tabs
       if (
         source !== prevProps.source ||
         JSON.stringify(tagsArticles) !==
@@ -96,7 +98,6 @@ class NewsPage extends Component {
             tabNews,
             tagsArticles
           );
-          updateRequestsNews(1);
         }
       } else {
         //Has changed some param which affects to the sources list, so "sources" and "news" need to be updated
@@ -109,7 +110,6 @@ class NewsPage extends Component {
           tabNews,
           tagsArticles
         );
-        updateRequestsNews(2);
       }
     }
   };
@@ -150,36 +150,37 @@ class NewsPage extends Component {
     }
   };
 
+  //This method disable filter sections after check some conditions
   disableFilterSection = (section) => {
-    const { language, country, category, source, tabNews } = this.props;
+    const { country, category, tabNews, translate } = this.props;
     let disabledSection = { value: false, msg: null };
     switch (section) {
-      case "Languages":
+      case "languages":
         if (tabNews === "coronavirus") {
           disabledSection.value = true;
-          disabledSection.msg = "Coronavirus tab doesn't have language filter";
+          disabledSection.msg = translate("Coronavirus tab doesn't allow this filter");
         } else if (country !== "All" || category !== "All") {
           disabledSection.value = true;
           disabledSection.msg =
-            "Country and category params prioritize above language param";
+            translate("newsPage_LanguageNotPriorized");
         }
         break;
-      case "Countries":
+      case "countries":
         if (tabNews === "articles") {
           disabledSection.value = true;
-          disabledSection.msg = "Countries param only can be used in topNews";
+          disabledSection.msg = translate("newsPage_filterDisabledNotTopNews");
         }
         break;
-      case "Categories":
+      case "categories":
         if (tabNews !== "topNews") {
           disabledSection.value = true;
-          disabledSection.msg = "Categories param only can be used in topNews";
+          disabledSection.msg = translate("newsPage_filterDisabledNotTopNews");
         }
         break;
-      case "Sources":
+      case "sources":
         if (tabNews === "coronavirus") {
           disabledSection.value = true;
-          disabledSection.msg = "Coronavirus tab doesn't have sources filter";
+          disabledSection.msg = translate("Coronavirus tab doesn't allow this filter");
         }
         break;
       default:
@@ -198,66 +199,76 @@ class NewsPage extends Component {
       sources,
       loadingSources,
       tabNews,
+      translate,
     } = this.props;
+
     return (
       <>
         <Layout>
           <Layout>
             <Menu mode="inline" defaultOpenKeys={["subMenu-filters"]}>
+              {/* Filter title with tags */}
               <SubMenu
                 key="subMenu-filters"
                 title={
                   <>
-                    <Text strong>Filters </Text>
+                    <Text strong style={{ marginRight: "10px" }}>
+                      {translate("newsPage_filters")}
+                    </Text>
                     <Tag color="magenta" style={{ cursor: "pointer" }}>
-                      Language: {language}
+                      {translate("newsPage_language") + ": " + language}
                     </Tag>
                     <Tag color="cyan" style={{ cursor: "pointer" }}>
-                      Country: {country}
+                      {translate("newsPage_country") + ": " + country}
                     </Tag>
                     <Tag color="purple" style={{ cursor: "pointer" }}>
-                      Category: {category}
+                      {translate("newsPage_category") + ": " + category}
                     </Tag>
                     <Tag color="gold" style={{ cursor: "pointer" }}>
-                      Source: {source}
+                      {translate("newsPage_source") + ": " + source}
                     </Tag>
                   </>
                 }
               >
-                <Section
-                  title="Languages"
+                {/*filter sections */}
+                <FilterSection
+                  sectionId="languages"
+                  title={translate("newsPage_languages")}
                   data={languages}
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={language}
                   color="magenta"
-                  disabledSection={this.disableFilterSection("Languages")}
+                  disabledSection={this.disableFilterSection("languages")}
                 />
 
-                <Section
-                  title="Countries"
+                <FilterSection
+                  sectionId="countries"
+                  title={translate("newsPage_countries")}
                   data={countries}
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={country}
                   color="cyan"
                   disabledES={tabNews === "topNews" || tabNews === "articles"}
-                  disabledSection={this.disableFilterSection("Countries")}
+                  disabledSection={this.disableFilterSection("countries")}
                 />
-                <Section
-                  title="Categories"
+                <FilterSection
+                  sectionId="categories"
+                  title={translate("newsPage_categories")}
                   data={categories}
                   updateSelectedValue={this.updateNewsParams}
                   defaultValue={category}
                   color="purple"
-                  disabledSection={this.disableFilterSection("Categories")}
+                  disabledSection={this.disableFilterSection("categories")}
                 />
-                <Section
-                  title="Sources"
+                <FilterSection
+                  sectionId="sources"
+                  title={translate("newsPage_sources")}
                   data={sources}
                   defaultValue={source}
                   updateSelectedValue={this.updateNewsParams}
                   loadingSources={loadingSources}
                   color="gold"
-                  disabledSection={this.disableFilterSection("Sources")}
+                  disabledSection={this.disableFilterSection("sources")}
                 />
               </SubMenu>
             </Menu>
@@ -272,7 +283,9 @@ class NewsPage extends Component {
   }
 }
 
+//redux props
 const mapStateToProps = (state) => ({
+  translate: getTranslate(state.localize),
   language: state.newsReducer.language,
   country: state.newsReducer.country,
   category: state.newsReducer.category,
@@ -284,6 +297,7 @@ const mapStateToProps = (state) => ({
   tagsArticles: state.newsReducer.tagsArticles,
 });
 
+//redux functions
 const mapDispatchToProps = (dispatch) => ({
   getSourcesStart: (language, country, category) =>
     dispatch(getSources(language, country, category)),
@@ -296,9 +310,10 @@ const mapDispatchToProps = (dispatch) => ({
   setNewCategory: (newCategory) => dispatch(setCategory(newCategory)),
   setNewSource: (newSource) => dispatch(setSource(newSource)),
   setNewTab: (newTab) => dispatch(setTabnews(newTab)),
-  updateRequestsNews: (newRequests) =>
-    dispatch(updateRequestsNewsAPI(newRequests)),
   getCovidInfo: (country) => dispatch(getCoronavirusInfo(country)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewsPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withLocalize(NewsPage));

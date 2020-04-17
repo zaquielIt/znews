@@ -1,0 +1,23 @@
+{
+    "header_title": "World News",
+    "footer_developer": "Developed by ",
+    "footer_powered": "Powered by ",
+    "newsPage_filters": "Filters",
+    "newsPage_language": "Language",
+    "newsPage_country": "Country",
+    "newsPage_category": "Category",
+    "newsPage_source": "Source",
+    "newsPage_languages": "Languages",
+    "newsPage_countries": "Countries",
+    "newsPage_categories": "Categories",
+    "newsPage_sources": "Sources",
+    "newsPage_filterDisabledNotTopNews": "This filter only can be used in topNews",
+    "newsPage_filterDisabledByCovid": "Coronavirus tab doesn't allow this filter",
+    "newsPage_LanguageNotPriorized": "Country and category params prioritize above language param",
+    "newsPage_emptySources": "Sorry, there is not any source to choose with the language + country + category selected",
+    "covid_dailyCases": "Daily cases",
+    "covid_dailyDeaths": "Daily deaths",
+    "covid_totalDeaths": "Total deaths",
+    "covid_totalCases": "Total Cases",
+    "covid_totalRecoveries": "Total recoveries"
+}

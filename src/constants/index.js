@@ -1,21 +1,15 @@
-//React imports
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 
-//Redux imports
 import { Provider } from "react-redux";
+import configureStore from "./store/store";
+
 import { LocalizeProvider } from "react-localize-redux";
 
-//store and service imports
-import configureStore from "./store/store";
-import * as serviceWorker from "./serviceWorker";
-
-//component imports
-import App from "./App.jsx";
-
-//style
 import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 const app = (
   <Provider store={configureStore()}>

@@ -1,6 +1,9 @@
-//basic import
+//React import
 import React from "react";
+
+//Redux imports
 import { connect } from "react-redux";
+import { getTranslate } from "react-localize-redux";
 
 import { Layout } from "antd";
 
@@ -41,15 +44,12 @@ class Covid19 extends React.Component {
       });
     }
   };
-
+  //render method to print covi19 graphic
   render() {
-    const { coronavirusInfo, loadingCovid, error } = this.props;
+    const { coronavirusInfo, loadingCovid, error, translate } = this.props;
     const { indexY } = this.state;
-    const radioStyle = {
-      display: "block",
-      height: "30px",
-      lineHeight: "30px",
-    };
+    
+    //claculate the maxIndex for the graphic
     let maxIndexYPos = 0;
     let maxIndexYValue = 0;
     indexY.forEach((index, pos) => {
@@ -60,6 +60,7 @@ class Covid19 extends React.Component {
         }
       });
     });
+
     return (
       <Layout>
         {!error ? (
@@ -67,6 +68,7 @@ class Covid19 extends React.Component {
             <Spin />
           ) : (
             <>
+            {/* barchart graphic if there is only one data to print*/}
               {indexY.length === 1 ? (
                 <BarChartComplete
                   indexY={indexY[0].name}
@@ -85,7 +87,7 @@ class Covid19 extends React.Component {
                   maxIndexYPos={maxIndexYPos}
                 />
               )}
-
+              {/* checkbox list to select the data showed in the graphic */}
               <Sider>
                 <Layout>
                   <Checkbox
@@ -98,7 +100,7 @@ class Covid19 extends React.Component {
                         .indexOf("indexYDailyCases") > -1
                     }
                   >
-                    <span style={{ color: "#EEB029" }}>Daily cases</span>
+                    <span style={{ color: "#EEB029" }}>{translate("covid_dailyCases")}</span>
                   </Checkbox>
                   <Checkbox
                     value={{ name: "indexYDailyDeaths", color: "#900C3F" }}
@@ -109,7 +111,7 @@ class Covid19 extends React.Component {
                         .indexOf("indexYDailyDeaths") > -1
                     }
                   >
-                    <span style={{ color: "red" }}>Daily deaths</span>
+                    <span style={{ color: "red" }}>{translate("covid_dailyDeaths")}</span>
                   </Checkbox>
                   <Checkbox
                     value={{ name: "indexYTotalCases", color: "red" }}
@@ -120,7 +122,7 @@ class Covid19 extends React.Component {
                         .indexOf("indexYTotalCases") > -1
                     }
                   >
-                    <span style={{ color: "#1890ff" }}>Total Cases</span>
+                    <span style={{ color: "#1890ff" }}>{translate("covid_totalCases")}</span>
                   </Checkbox>
                   <Checkbox
                     value={{ name: "indexYTotalRecoveries", color: "#009933" }}
@@ -131,7 +133,7 @@ class Covid19 extends React.Component {
                         .indexOf("indexYTotalRecoveries") > -1
                     }
                   >
-                    <span style={{ color: "#009933" }}>Total recoveries</span>
+                    <span style={{ color: "#009933" }}>{translate("covid_totalRecoveries")}</span>
                   </Checkbox>
                   <Checkbox
                     value={{ name: "indexYTotalDeaths", color: "black" }}
@@ -142,13 +144,14 @@ class Covid19 extends React.Component {
                         .indexOf("indexYTotalDeaths") > -1
                     }
                   >
-                    <span style={{ color: "black" }}>Total Deaths</span>
+                    <span style={{ color: "black" }}>{translate("covid_totalDeaths")}</span>
                   </Checkbox>
                 </Layout>
               </Sider>
             </>
           )
         ) : (
+          //Alert if there is one problem with the response of the covid19 API
           <Alert
             message={error.code}
             description={error.message}
@@ -161,6 +164,7 @@ class Covid19 extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  translate: getTranslate(state.localize),
   coronavirusInfo: state.covidReducer.coronavirusInfo,
   loadingCovid: state.covidReducer.loadingCovid,
   error: state.covidReducer.errorCovid,

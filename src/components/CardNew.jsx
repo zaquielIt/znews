@@ -1,9 +1,13 @@
+//React import
 import React from "react";
+
+//antd elements
 import { Card, Tooltip, Skeleton } from "antd";
 
 const { Meta } = Card;
 
 class CardNew extends React.Component {
+  //render method to print the card with the new basic info
   render() {
     const { key, card, loading } = this.props;
     return card.urlToImage && card.title ? (
@@ -11,7 +15,7 @@ class CardNew extends React.Component {
         <Card
           key={"Card-" + key}
           hoverable
-          style={{ width: 240, height: 450 }}
+          style={{ width: 240, height: 450, margin: "0px 15px 15px 0px" }}
           cover={
             card.urlToImage ? (
               <img alt={card.title} src={card.urlToImage} height="175" />

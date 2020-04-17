@@ -36,11 +36,6 @@ export const getNewsFailed = (error) => ({
   payload: error,
 });
 
-export const setRequestsNewsAPI = (newRequestsValue) => ({
-  type: actions.SET_REQUESTS_NEWSAPI,
-  payload: newRequestsValue,
-});
-
 export const setTagsArticles = (newTagsArticles) => ({
   type: actions.SET_TAGS_ARTICLES,
   payload: newTagsArticles,
@@ -116,33 +111,6 @@ export const getSources = (language, country, category) => {
       .catch((error) => {
         dispatch(getSourcesFailed(error));
       });
-  };
-};
-
-export const updateRequestsNewsAPI = (newValue) => {
-  return (dispatch) => {
-    axios.get("https://znews-273807.firebaseio.com/znews.json").then((res) => {
-      const response = res.data.requestsNewsAPI;
-      const date = new Date();
-      const fullDay =
-        date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-      let requestsValue = newValue;
-      if (fullDay === response.day) {
-        requestsValue = response.value + newValue;
-      }
-      axios
-        .put("https://znews-273807.firebaseio.com/znews.json", {
-          requestsNewsAPI: {
-            day: fullDay,
-            value: requestsValue,
-          },
-        })
-        .then((response) => {
-          dispatch(
-            setRequestsNewsAPI(parseInt(response.data.requestsNewsAPI.value))
-          );
-        });
-    });
   };
 };
 

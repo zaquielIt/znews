@@ -1,21 +1,34 @@
+//React imports
 import React from "react";
+
+//Redux imports
 import { connect } from "react-redux";
+import { getTranslate } from "react-localize-redux";
+
+//Antd components
+import { PageHeader, Button } from "antd";
+import { GithubOutlined } from "@ant-design/icons";
+
+//Components
+import Clock from "react-live-clock";
+
+//style
 import "./Header.css";
 
-import { Tag, PageHeader, Button } from "antd";
-
-import Clock from "react-live-clock";
-import { GithubOutlined } from "@ant-design/icons";
 
 class Header extends React.Component {
   render() {
-    const { requestsNewsAPI } = this.props;
+
+    const { translate } = this.props;
+
+    //timezone to show the right hour
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     return (
       <PageHeader
         className="site-page-header"
-        title="ZNEWS"
-        subTitle=" World News Page"
+        title="ZNEWS "
+        subTitle={translate("header_title")}
+        //github button 
         tags={
           <div style={{ marginTop: "15px" }}>
             <Button
@@ -30,6 +43,7 @@ class Header extends React.Component {
             </Button>
           </div>
         }
+        //clock to show the hour od the user timezone
         extra={[
           <div style={{ marginTop: "10px" }}>
             <Clock
@@ -44,7 +58,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  requestsNewsAPI: state.newsReducer.requestsNewsAPI,
+  translate: getTranslate(state.localize)
 });
 
 export default connect(mapStateToProps)(Header);

@@ -1,21 +1,30 @@
 //React import
 import React, { Component } from "react";
-//stye
-import "./App.css";
+
+//Redux import
+import { connect } from "react-redux";
+import { getTranslate } from "react-localize-redux";
+
+
 //Containers and Components
 import NewsPage from "./containers/NewsPage";
 import HeaderContainer from "./containers/Header";
+
+//stye
+import "./App.css";
+
 //"antd" elements
 import { Layout, Typography } from "antd";
 
 const { Text } = Typography;
 const { Header, Footer, Content } = Layout;
 
-
 class App extends Component {
-
+  
   //Render basic App layouts
   render() {
+    const { translate } = this.props;
+
     return (
       <Layout>
         <Header>
@@ -24,13 +33,12 @@ class App extends Component {
         <Content className="site-layout-content">
           <NewsPage />
         </Content>
-        <Footer >
-          <Text type="secondary" style={{ float: "left" }}>
-            Ant Design ©2018 Created by Ant UED
+        <Footer>
+          <Text code style={{ float: "left" }}>
+            {translate("footer_developer") + "Zaquiel Rodriguez Arce"}
           </Text>
-          <Text code>Developed by Zaquiel Rodriguez Arce</Text>
           <a href="https://newsapi.org" style={{ float: "right" }}>
-            Powered by News API
+            {translate("footer_powered") + "News API"}
           </a>
         </Footer>
       </Layout>
@@ -38,4 +46,8 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  translate: getTranslate(state.localize),
+});
+
+export default connect(mapStateToProps)(App);

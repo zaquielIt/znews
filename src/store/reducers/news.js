@@ -1,7 +1,6 @@
 import { actions } from "store/actions/news";
 const initialState = {
   compactmode: true,
-  requestsNewsAPI: 0,
   tagsArticles: ["coronavirus"],
   tabNews: "topNews",
   language: "en",
@@ -26,13 +25,6 @@ const loadStore = () => {
 export default (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case actions.SET_REQUESTS_NEWSAPI:
-      newState = {
-        ...state,
-        requestsNewsAPI: action.payload,
-      };
-      saveStore(newState);
-      return newState;
     case actions.SET_TAGS_ARTICLES:
       newState = {
         ...state,

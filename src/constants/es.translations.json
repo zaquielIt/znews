@@ -1,0 +1,23 @@
+{
+    "header_title": "Noticias mundiales",
+    "footer_developer": "Desarrollado por ",
+    "footer_powered": "Provista por ",
+    "newsPage_filters": "Filtros",
+    "newsPage_language": "Idioma",
+    "newsPage_country": "País",
+    "newsPage_category": "Categoría",
+    "newsPage_source": "Fuente",
+    "newsPage_languages": "Idiomas",
+    "newsPage_countries": "Paises",
+    "newsPage_categories": "Categorias",
+    "newsPage_sources": "Fuentes",
+    "newsPage_filterDisabledNotTopNews": "Este filtro solo puede ser usado en 'topNews'",
+    "newsPage_filterDisabledByCovid": "Coronavirus tab no permite este filtro",
+    "newsPage_LanguageNotPriorized": "Los parámetros 'País' y 'categoría' priorizan sobre el 'idioma'",
+    "newsPage_emptySources": "Lo siento, no se puede seleccionar fuentes con el idioma + país + categoría seleccionada",
+    "covid_dailyCases": "Casos diarios",
+    "covid_dailyDeaths": "Muertes diarias",
+    "covid_totalDeaths": "Muertes totales",
+    "covid_totalCases": "Casos totales",
+    "covid_totalRecoveries": "Recuperados totales"
+}

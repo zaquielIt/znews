@@ -1,6 +1,16 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers/rootReducer';
+import { createStore, applyMiddleware, compose } from "redux";
+
+import { renderToStaticMarkup } from 'react-dom/server';
+import thunk from "redux-thunk";
+import rootReducer from "./reducers/rootReducer";
+
+import {
+  initialize,
+  addTranslationForLanguage,
+} from "react-localize-redux";
+
+import ENtranslations from "../constants/en.translations.json";
+import EStranslations from "../constants/en.translations.json";
 
 const composeEnhancers =
   process.env.NODE_ENV === "development"
@@ -8,8 +18,18 @@ const composeEnhancers =
     : null || compose;
 
 export default function configureStore() {
- return createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
- );
+ const store = createStore(
+    rootReducer,
+    composeEnhancers(applyMiddleware(thunk))
+  );
+   const languages = [
+    { name: "English", code: "en" },
+    { name: "Spanish", code: "es" },
+  ];
+  
+  store.dispatch(initialize({ languages, options: {defaultLanguage: "en", renderToStaticMarkup} }));
+  store.dispatch(addTranslationForLanguage(ENtranslations, "en"));
+  store.dispatch(addTranslationForLanguage(EStranslations, "es"));
+
+  return store;
 }
