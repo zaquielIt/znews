@@ -2,7 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 //Redux import
 import { getTranslate } from "react-localize-redux";
@@ -31,24 +31,46 @@ class Cards extends React.Component {
   };
 
   //render spin / empty view / news cards
-  tabWithNews = (loadingNews, listNews) =>
-    loadingNews || !listNews || !listNews.articles ? (
+  tabWithNews = (loadingNews, listNews) => {
+    const { translate, tagsArticles } = this.props;
+
+    return loadingNews || !listNews || !listNews.articles ? (
       fakeCards.articles.map((card, pos) => (
         <CardNew key={pos} card={card} loading={loadingNews} />
       ))
     ) : listNews.articles.length === 0 ? (
-      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={
+          tagsArticles.length === 0
+            ? translate("newsPage_emptyTags")
+            : translate("newsPage_emptyNews")
+        }
+      />
     ) : (
       <>
         <BackTop />
         {listNews.articles.map((card, pos) => (
-          <CardNew key={`cardNew-list-${pos}`} card={card} loading={loadingNews} />
+          <CardNew
+            key={`cardNew-list-${pos}`}
+            card={card}
+            loading={loadingNews}
+          />
         ))}
       </>
     );
+  };
 
   render() {
-    const { defaultValue, loadingNews, news, error, translate } = this.props;
+    const {
+      defaultValue,
+      loadingNews,
+      news,
+      error,
+      errorTopNews,
+      errorArticles,
+      translate,
+    } = this.props;
     return (
       <Tabs defaultActiveKey={defaultValue} onTabClick={this.tabChanged}>
         <TabPane
@@ -67,7 +89,7 @@ class Cards extends React.Component {
           }
           key="topNews"
         >
-          {!error ? (
+          {!errorTopNews ? (
             this.tabWithNews(loadingNews, news)
           ) : (
             <Alert
@@ -93,9 +115,9 @@ class Cards extends React.Component {
           }
           key="articles"
         >
-          {!error ? (
+          {!errorArticles ? (
             <>
-              <Tags />
+              {loadingNews ? null : <Tags />}
               {this.tabWithNews(loadingNews, news)}
             </>
           ) : (
@@ -124,15 +146,18 @@ class Cards extends React.Component {
 
 Cards.propTypes = {
   defaultValue: PropTypes.string,
-  updateSelectedValue: PropTypes.func
-}
+  updateSelectedValue: PropTypes.func,
+};
 
 const mapStateToProps = (state) => ({
   translate: getTranslate(state.localize),
+  tagsArticles: state.newsReducer.tagsArticles,
   loadingNews: state.newsReducer.loadingNews,
   sources: state.newsReducer.sources,
   news: state.newsReducer.news,
   error: state.newsReducer.error,
+  errorTopNews: state.newsReducer.errorTopNews,
+  errorArticles: state.newsReducer.errorArticles,
 });
 
 export default connect(mapStateToProps)(Cards);

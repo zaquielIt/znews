@@ -126,22 +126,25 @@ class NewsPage extends Component {
       getCovidInfo,
     } = this.props;
     switch (section) {
-      case "Languages":
+      case "languages":
         setNewLanguage(newValue);
         break;
-      case "Countries":
+      case "countries":
         setNewCountry(newValue);
         getCovidInfo(newValue);
         break;
-      case "Categories":
+      case "categories":
         setNewCategory(newValue);
         break;
-      case "Sources":
+      case "sources":
         setNewSource(newValue);
         break;
       case "tabNews":
         if (newValue === "topNews" && country === "es") {
           setNewCountry("All");
+        }
+        if (newValue === "coronavirus" && country === "All") {
+          setNewCountry("us");
         }
         setNewTab(newValue);
         break;
@@ -158,7 +161,7 @@ class NewsPage extends Component {
       case "languages":
         if (tabNews === "coronavirus") {
           disabledSection.value = true;
-          disabledSection.msg = translate("Coronavirus tab doesn't allow this filter");
+          disabledSection.msg = translate("newsPage_filterDisabledByCovid");
         } else if (country !== "All" || category !== "All") {
           disabledSection.value = true;
           disabledSection.msg =
@@ -180,7 +183,7 @@ class NewsPage extends Component {
       case "sources":
         if (tabNews === "coronavirus") {
           disabledSection.value = true;
-          disabledSection.msg = translate("Coronavirus tab doesn't allow this filter");
+          disabledSection.msg = translate("newsPage_filterDisabledByCovid");
         }
         break;
       default:

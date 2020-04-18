@@ -1,7 +1,7 @@
 import { actions } from "store/actions/news";
 const initialState = {
   compactmode: true,
-  tagsArticles: ["coronavirus"],
+  tagsArticles: [],
   tabNews: "topNews",
   language: "en",
   country: "All",
@@ -12,6 +12,8 @@ const initialState = {
   news: null,
   loadingSources: false,
   error: null,
+  errorTopNews: null,
+  errorArticles: null,
 };
 
 const saveStore = (state) => {
@@ -94,11 +96,19 @@ export default (state = initialState, action) => {
       saveStore(newState);
       return newState;
     case actions.GET_NEWS_START:
+      const tabNews = action.payload.tabNews;
+      let error = {};
+      if (tabNews === "topNews") {
+        error = { errorTopNews: null };
+      } else {
+        error = { errorArticles: null };
+      }
       newState = {
         ...state,
-        error: null,
+        errorTopNews: null,
         loadingNews: true,
         news: null,
+        ...error,
       };
       saveStore(newState);
       return newState;
@@ -106,16 +116,23 @@ export default (state = initialState, action) => {
       newState = {
         ...state,
         loadingNews: false,
-        news: action.payload,
+        news: action.payload
       };
       saveStore(newState);
       return newState;
     case actions.GET_NEWS_FAILED:
+      const tab = action.payload.tabNews;
+      let err = {};
+      if (tab === "topNews") {
+        err = { errorTopNews: action.payload.error };
+      } else {
+        err = { errorArticles: action.payload.error };
+      }
       newState = {
         ...state,
         loadingNews: false,
         news: null,
-        error: action.payload,
+        ...err
       };
       saveStore(newState);
       return newState;

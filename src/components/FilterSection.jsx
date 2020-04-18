@@ -26,8 +26,8 @@ const { SubMenu } = Menu;
 class FilterSection extends React.Component {
   //update value of the filter section
   onChange = (item) => {
-    const { title, updateSelectedValue } = this.props;
-    updateSelectedValue(title, item.target.value);
+    const { sectionId, updateSelectedValue } = this.props;
+    updateSelectedValue(sectionId, item.target.value);
   };
 
   //render method
@@ -73,7 +73,7 @@ class FilterSection extends React.Component {
           ) : (
             <Radio.Group defaultValue={defaultValue} size="small">
               {sectionId === "categories" || sectionId === "languages" ? null : (
-                <Radio.Button value="All" onChange={this.onChange} disabled={disabledSection.value} style={{margin: '5px 5px 0px 0px'}}>
+                <Radio.Button value="All" onChange={this.onChange} disabled={disabledSection.value || sectionId === "coronavirus"} style={{margin: '5px 5px 0px 0px'}}>
                   All
                 </Radio.Button>
               )}
@@ -114,13 +114,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(FilterSection);
-
-/*
-sectionId="languages"
-title={translate("newsPage_languages")}
-data={languages}
-updateSelectedValue={this.updateNewsParams}
-defaultValue={language}
-color="magenta"
-disabledSection={this.disableFilterSection("languages")}
-*/

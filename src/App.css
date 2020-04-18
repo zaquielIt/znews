@@ -1,9 +1,5 @@
 @import '~antd/dist/antd.css';
 
-.site-layout-content {
-  height: 80%
-}
-
 .ant-layout-header {
   padding: 0px 25px 0px 25px
 }
@@ -42,6 +38,7 @@
 
 .ant-layout {
   background: #FFFFFF;
+  min-height: 100%;
 }
 
 .site-layout-content {

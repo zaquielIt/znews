@@ -15,6 +15,8 @@
     "newsPage_filterDisabledByCovid": "Coronavirus tab doesn't allow this filter",
     "newsPage_LanguageNotPriorized": "Country and category params prioritize above language param",
     "newsPage_emptySources": "Sorry, there is not any source to choose with the language + country + category selected",
+    "newsPage_emptyTags": "Add a tag to find articles",
+    "newsPage_emptyNews": "There aren't news with your search",
     "covid_dailyCases": "Daily cases",
     "covid_dailyDeaths": "Daily deaths",
     "covid_totalDeaths": "Total deaths",
@@ -22,5 +24,6 @@
     "covid_totalRecoveries": "Total recoveries",
     "tabs_topNews": "Top news",
     "tabs_articles": "Articles",
-    "tabs_covid": "Coronavirus graphics (special tab)"
+    "tabs_covid": "Coronavirus graphics (special tab)",
+    "tags_searchTags": "Search articles by 'tags'"
 }

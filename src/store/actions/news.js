@@ -23,17 +23,19 @@ export const actions = {
   SET_REQUESTS_NEWSAPI: "SET_REQUESTS_NEWSAPI",
 };
 
-export const getNewsStart = () => ({
+export const getNewsStart = (tabNews) => ({
   type: actions.GET_NEWS_START,
+  payload: { tabNews },
 });
+
 export const getNewsSuccess = (response) => ({
   type: actions.GET_NEWS_SUCCESS,
   payload: response,
 });
 
-export const getNewsFailed = (error) => ({
+export const getNewsFailed = (tabNews,error) => ({
   type: actions.GET_NEWS_FAILED,
-  payload: error,
+  payload: {tabNews, error},
 });
 
 export const setTagsArticles = (newTagsArticles) => ({
@@ -123,7 +125,7 @@ export const getNews = (
   tagsArticles
 ) => {
   return (dispatch) => {
-    dispatch(getNewsStart());
+    dispatch(getNewsStart(tabNews));
     let languageParam = "";
     if (language !== "All") {
       languageParam = "&language=" + language;
@@ -133,7 +135,7 @@ export const getNews = (
       countryParam = "&country=" + country;
     }
     let categoryParam = "";
-    if (category !== "All" && source === "All"  && tabNews === "topNews") {
+    if (category !== "All" && source === "All" && tabNews === "topNews") {
       categoryParam = "&category=" + category;
     }
     let sourcesParam = "";
@@ -162,7 +164,7 @@ export const getNews = (
           dispatch(getNewsSuccess(res.data));
         })
         .catch((error) => {
-          dispatch(getNewsFailed(error));
+          dispatch(getNewsFailed(tabNews,error));
         });
     } else {
       axios
