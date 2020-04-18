@@ -1,7 +1,8 @@
 //React imports
 import React from "react";
 
-//Redux imports
+import PropTypes from 'prop-types';
+
 //Redux imports
 import { connect } from "react-redux";
 import { getTranslate } from "react-localize-redux";
@@ -42,6 +43,7 @@ class FilterSection extends React.Component {
       disabledES,
       translate
     } = this.props;
+    
     return (
       <Menu mode="inline">
         <SubMenu
@@ -77,7 +79,7 @@ class FilterSection extends React.Component {
               )}
 
               {data.map((elem, pos) => (
-                <Tooltip title={(disabledES && elem === "es") && translate("newsPage_filterDisabledNotTopNews")}>
+                <Tooltip key={`filterection-data-${pos}`} title={(disabledES && elem === "es") && translate("newsPage_filterDisabledNotTopNews")}>
                   <Radio.Button
                     key={title + "-" + pos}
                     value={sectionId === "sources" ? elem.id : elem}
@@ -97,8 +99,28 @@ class FilterSection extends React.Component {
   }
 }
 
+FilterSection.propTypes = {
+  sectionId: PropTypes.string,
+  title: PropTypes.string,
+  data: PropTypes.array,
+  updateSelectedValue: PropTypes.func,
+  defaultValue: PropTypes.string,
+  color: PropTypes.string,
+  disabledSection: PropTypes.shape({value: PropTypes.bool, msg: PropTypes.string})
+}
+
 const mapStateToProps = state => ({
   translate: getTranslate(state.localize)
 });
 
 export default connect(mapStateToProps)(FilterSection);
+
+/*
+sectionId="languages"
+title={translate("newsPage_languages")}
+data={languages}
+updateSelectedValue={this.updateNewsParams}
+defaultValue={language}
+color="magenta"
+disabledSection={this.disableFilterSection("languages")}
+*/

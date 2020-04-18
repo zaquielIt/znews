@@ -201,7 +201,7 @@ class NewsPage extends Component {
       tabNews,
       translate,
     } = this.props;
-
+    
     return (
       <>
         <Layout>

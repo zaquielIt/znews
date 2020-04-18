@@ -10,7 +10,7 @@ import {
 } from "react-localize-redux";
 
 import ENtranslations from "../constants/en.translations.json";
-import EStranslations from "../constants/en.translations.json";
+import EStranslations from "../constants/es.translations.json";
 
 const composeEnhancers =
   process.env.NODE_ENV === "development"
@@ -28,8 +28,9 @@ export default function configureStore() {
   ];
   
   store.dispatch(initialize({ languages, options: {defaultLanguage: "en", renderToStaticMarkup} }));
-  store.dispatch(addTranslationForLanguage(ENtranslations, "en"));
   store.dispatch(addTranslationForLanguage(EStranslations, "es"));
+  store.dispatch(addTranslationForLanguage(ENtranslations, "en"));
+  
 
   return store;
 }

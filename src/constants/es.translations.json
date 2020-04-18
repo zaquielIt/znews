@@ -19,5 +19,8 @@
     "covid_dailyDeaths": "Muertes diarias",
     "covid_totalDeaths": "Muertes totales",
     "covid_totalCases": "Casos totales",
-    "covid_totalRecoveries": "Recuperados totales"
+    "covid_totalRecoveries": "Recuperados totales",
+    "tabs_topNews": "Top noticias",
+    "tabs_articles": "Articulos",
+    "tabs_covid": "gráficos COVID (tab especial)"
 }

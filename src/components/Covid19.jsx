@@ -11,16 +11,16 @@ import { Layout } from "antd";
 import { getCoronavirusInfo } from "store/actions/coronavirus";
 
 //Components
-import BarChartComplete from "./graphics/BarChartComplete";
+import BarChart from "./graphics/BarChart";
 import LineChart from "./graphics/LineChart";
 
 // "antd" elements
-import { Spin, Alert, Radio, Checkbox } from "antd";
+import { Spin, Alert, Checkbox } from "antd";
 const { Sider } = Layout;
 
 class Covid19 extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       indexY: [{ name: "indexYTotalCases", color: "#1890ff" }],
     };
@@ -70,7 +70,7 @@ class Covid19 extends React.Component {
             <>
             {/* barchart graphic if there is only one data to print*/}
               {indexY.length === 1 ? (
-                <BarChartComplete
+                <BarChart
                   indexY={indexY[0].name}
                   data={coronavirusInfo}
                   width={1000}

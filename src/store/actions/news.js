@@ -3,8 +3,8 @@ import axios from "axios";
 import { token } from "constants/api";
 
 //mockups
-import sources from "mockups/sources.json";
-import articles from "mockups/articles.json";
+// import sources from "mockups/sources.json";
+// import articles from "mockups/articles.json";
 
 // actions list
 export const actions = {

@@ -2,6 +2,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import PropTypes from 'prop-types';
+
+//Redux import
+import { getTranslate } from "react-localize-redux";
+
+//mockup
 import fakeCards from "mockups/fakeCardsNews.json";
 
 //style
@@ -13,7 +19,7 @@ import Tags from "./Tags";
 import Covid19 from "./Covid19";
 
 // "antd" elements
-import { Tabs, Spin, Empty, Badge, Alert, BackTop } from "antd";
+import { Tabs, Empty, Badge, Alert, BackTop } from "antd";
 const { TabPane } = Tabs;
 
 class Cards extends React.Component {
@@ -36,13 +42,13 @@ class Cards extends React.Component {
       <>
         <BackTop />
         {listNews.articles.map((card, pos) => (
-          <CardNew key={pos} card={card} loading={loadingNews} />
+          <CardNew key={`cardNew-list-${pos}`} card={card} loading={loadingNews} />
         ))}
       </>
     );
 
   render() {
-    const { defaultValue, loadingNews, news, error } = this.props;
+    const { defaultValue, loadingNews, news, error, translate } = this.props;
     return (
       <Tabs defaultActiveKey={defaultValue} onTabClick={this.tabChanged}>
         <TabPane
@@ -53,10 +59,10 @@ class Cards extends React.Component {
                 offset={[15, -5]}
                 overflowCount={100}
               >
-                Top news
+                {translate("tabs_topNews")}
               </Badge>
             ) : (
-              "Top news"
+              translate("tabs_topNews")
             )
           }
           key="topNews"
@@ -79,10 +85,10 @@ class Cards extends React.Component {
                 offset={[15, -5]}
                 overflowCount={100}
               >
-                Articles
+                {translate("tabs_articles")}
               </Badge>
             ) : (
-              "Articles"
+              translate("tabs_articles")
             )
           }
           key="articles"
@@ -100,7 +106,7 @@ class Cards extends React.Component {
             />
           )}
         </TabPane>
-        <TabPane tab="Coronavirus graphics (special tab)" key="coronavirus">
+        <TabPane tab={translate("tabs_covid")} key="coronavirus">
           {!error ? (
             <Covid19 />
           ) : (
@@ -116,7 +122,13 @@ class Cards extends React.Component {
   }
 }
 
+Cards.propTypes = {
+  defaultValue: PropTypes.string,
+  updateSelectedValue: PropTypes.func
+}
+
 const mapStateToProps = (state) => ({
+  translate: getTranslate(state.localize),
   loadingNews: state.newsReducer.loadingNews,
   sources: state.newsReducer.sources,
   news: state.newsReducer.news,
