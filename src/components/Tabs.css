@@ -11,3 +11,7 @@
 .ant-card-body {
     display: inline;
 }
+
+.react-reveal {
+    display: inline-block;
+}

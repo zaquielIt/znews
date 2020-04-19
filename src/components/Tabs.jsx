@@ -50,13 +50,13 @@ class Cards extends React.Component {
     ) : (
       <>
         <BackTop />
-        {listNews.articles.map((card, pos) => (
-          <CardNew
-            key={`cardNew-list-${pos}`}
-            card={card}
-            loading={loadingNews}
-          />
-        ))}
+          {listNews.articles.map((card, pos) => (
+            <CardNew
+              key={`cardNew-list-${pos}`}
+              card={card}
+              loading={loadingNews}
+            />
+          ))}
       </>
     );
   };
@@ -71,7 +71,7 @@ class Cards extends React.Component {
       errorArticles,
       translate,
     } = this.props;
-    
+
     return (
       <Tabs defaultActiveKey={defaultValue} onTabClick={this.tabChanged}>
         <TabPane
@@ -93,10 +93,13 @@ class Cards extends React.Component {
           {!errorTopNews ? (
             this.tabWithNews(loadingNews, news)
           ) : (
-
             <Alert
               message={errorTopNews.code}
-              description={errorTopNews.response ? errorTopNews.response.data.message : errorTopNews.message}
+              description={
+                errorTopNews.response
+                  ? errorTopNews.response.data.message
+                  : errorTopNews.message
+              }
               type="error"
             />
           )}
@@ -125,7 +128,11 @@ class Cards extends React.Component {
           ) : (
             <Alert
               message={errorArticles.code}
-              description={errorArticles.response ? errorArticles.response.data.message : errorArticles.message}
+              description={
+                errorArticles.response
+                  ? errorArticles.response.data.message
+                  : errorArticles.message
+              }
               type="error"
             />
           )}

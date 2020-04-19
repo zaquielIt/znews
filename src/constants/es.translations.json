@@ -25,5 +25,9 @@
     "tabs_topNews": "Top noticias",
     "tabs_articles": "Articulos",
     "tabs_covid": "gráficos COVID (tab especial)",
-    "tags_searchTags": "Buscar articulos por 'tags'"
+    "tags_searchTags": "Buscar articulos por 'tags'",
+    "valoration_title": "Valoracion",
+    "valoration_message": "Sé libre de valorar este proyecto, gracias!",
+    "valoration_placeholder": "Sé libre de escribir tu opinion, me ayudará a mejorar este proyecto, gracias!",
+    "valoration_send": "Enviar"
 }

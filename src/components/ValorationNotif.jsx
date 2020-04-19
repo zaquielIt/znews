@@ -21,10 +21,12 @@ class ValorationNotif extends Component {
 
   componentDidMount = () => {
     const { translate, closeNotif } = this.props;
+    const key = `open${Date.now()}`;
     notification.open({
       duration: 0,
       message: translate("valoration_title"),
       description: translate("valoration_message"),
+      key: key,
       btn: (
         <>
           <Rate
@@ -32,8 +34,8 @@ class ValorationNotif extends Component {
             allowHalf
             defaultValue={this.valoration}
             onChange={(valoration) => {
-                this.valoration = valoration;
-              }}
+              this.valoration = valoration;
+            }}
           />
           <TextArea
             autoSize
@@ -42,23 +44,34 @@ class ValorationNotif extends Component {
               this.valorationText = textArea.target.value;
             }}
           />
-          <Button type="primary" shape="round" icon={<SendOutlined />} size='small' style={{marginTop: '5px', float: 'right'}}>Enviar</Button>
+          <Button
+            type="primary"
+            shape="round"
+            icon={<SendOutlined />}
+            size="small"
+            style={{ marginTop: "5px", float: "right" }}
+            onClick={() => {
+              this.sendEmail();
+              notification.close(key);
+            }}
+          >
+            Enviar
+          </Button>
         </>
       ),
-      key: `open${Date.now()}`,
       onClose: () => {
-        this.sendEmail();
         closeNotif();
       },
     });
   };
 
   sendEmail = () => {
-    const { setValoration } = this.props;
+    const { setValoration, translate } = this.props;
 
     if (this.valoration || this.valorationText.length > 0) {
-      /*window.emailjs
+      window.emailjs
         .send("zaq", "template_nKeRwDu1", {
+          duration: 0,
           message_html:
             "valoration: " +
             this.valoration +
@@ -68,15 +81,18 @@ class ValorationNotif extends Component {
           reply_to: "zaquihex@gmail.com",
         })
         .then((res) => {
-          console.log("Email successfully sent!");
+          notification["success"]({
+            duration: 2,
+            message: translate("valoration_send_success"),
+          });
         })
         // Handle errors here however you like, or use a React error boundary
         .catch((err) => {
-          console.error(
-            "Oh well, you failed. Here some thoughts on the error that occured:",
-            err
-          );
-        });*/
+          notification["error"]({
+            duration: 2,
+            message: translate("valoration_send_failure"),
+          });
+        });
       setValoration(this.valoration);
     }
   };

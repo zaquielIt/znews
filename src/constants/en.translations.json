@@ -28,5 +28,8 @@
     "tags_searchTags": "Search articles by 'tags'",
     "valoration_title": "Valoration",
     "valoration_message": "be free to valorate this project, thanks!",
-    "valoration_placeholder": "Be free to write your opinion, it will help me to improve this project, thanks!"
+    "valoration_placeholder": "Be free to write your opinion, it will help me to improve this project, thanks!",
+    "valoration_send": "Send",
+    "valoration_send_success": "Valoration sent",
+    "valoration_send_failure": "Error sending valoration"
 }

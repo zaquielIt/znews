@@ -206,72 +206,71 @@ class NewsPage extends Component {
     return (
       <Layout>
         <Layout>
-          <Menu mode="inline" defaultOpenKeys={["subMenu-filters"]}>
-            {/* Filter title with tags */}
-            <SubMenu
-              key="subMenu-filters"
-              title={
-                <>
-                  <Text strong style={{ marginRight: "10px" }}>
-                    {translate("newsPage_filters")}
-                  </Text>
-                  <Tag color="magenta" style={{ cursor: "pointer" }}>
-                    {translate("newsPage_language") + ": " + language}
-                  </Tag>
-                  <Tag color="cyan" style={{ cursor: "pointer" }}>
-                    {translate("newsPage_country") + ": " + country}
-                  </Tag>
-                  <Tag color="purple" style={{ cursor: "pointer" }}>
-                    {translate("newsPage_category") + ": " + category}
-                  </Tag>
-                  <Tag color="gold" style={{ cursor: "pointer" }}>
-                    {translate("newsPage_source") + ": " + source}
-                  </Tag>
-                </>
-              }
-            >
-              {/*filter sections */}
-              <FilterSection
-                sectionId="languages"
-                title={translate("newsPage_languages")}
-                data={languages}
-                updateSelectedValue={this.updateNewsParams}
-                defaultValue={language}
-                color="magenta"
-                disabledSection={this.disableFilterSection("languages")}
-              />
-
-              <FilterSection
-                sectionId="countries"
-                title={translate("newsPage_countries")}
-                data={countries}
-                updateSelectedValue={this.updateNewsParams}
-                defaultValue={country}
-                color="cyan"
-                disabledES={tabNews === "topNews" || tabNews === "articles"}
-                disabledSection={this.disableFilterSection("countries")}
-              />
-              <FilterSection
-                sectionId="categories"
-                title={translate("newsPage_categories")}
-                data={categories}
-                updateSelectedValue={this.updateNewsParams}
-                defaultValue={category}
-                color="purple"
-                disabledSection={this.disableFilterSection("categories")}
-              />
-              <FilterSection
-                sectionId="sources"
-                title={translate("newsPage_sources")}
-                data={sources}
-                defaultValue={source}
-                updateSelectedValue={this.updateNewsParams}
-                loadingSources={loadingSources}
-                color="gold"
-                disabledSection={this.disableFilterSection("sources")}
-              />
-            </SubMenu>
-          </Menu>
+            <Menu mode="inline" defaultOpenKeys={["subMenu-filters"]}>
+              {/* Filter title with tags */}
+              <SubMenu
+                key="subMenu-filters"
+                title={
+                  <>
+                    <Text strong style={{ marginRight: "10px" }}>
+                      {translate("newsPage_filters")}
+                    </Text>
+                    <Tag color="magenta" style={{ cursor: "pointer" }}>
+                      {translate("newsPage_language") + ": " + language}
+                    </Tag>
+                    <Tag color="cyan" style={{ cursor: "pointer" }}>
+                      {translate("newsPage_country") + ": " + country}
+                    </Tag>
+                    <Tag color="purple" style={{ cursor: "pointer" }}>
+                      {translate("newsPage_category") + ": " + category}
+                    </Tag>
+                    <Tag color="gold" style={{ cursor: "pointer" }}>
+                      {translate("newsPage_source") + ": " + source}
+                    </Tag>
+                  </>
+                }
+              >
+                {/*filter sections */}
+                <FilterSection
+                  sectionId="languages"
+                  title={translate("newsPage_languages")}
+                  data={languages}
+                  updateSelectedValue={this.updateNewsParams}
+                  defaultValue={language}
+                  color="magenta"
+                  disabledSection={this.disableFilterSection("languages")}
+                />
+                <FilterSection
+                  sectionId="countries"
+                  title={translate("newsPage_countries")}
+                  data={countries}
+                  updateSelectedValue={this.updateNewsParams}
+                  defaultValue={country}
+                  color="cyan"
+                  disabledES={tabNews === "topNews" || tabNews === "articles"}
+                  disabledSection={this.disableFilterSection("countries")}
+                />
+                <FilterSection
+                  sectionId="categories"
+                  title={translate("newsPage_categories")}
+                  data={categories}
+                  updateSelectedValue={this.updateNewsParams}
+                  defaultValue={category}
+                  color="purple"
+                  disabledSection={this.disableFilterSection("categories")}
+                />
+                <FilterSection
+                  sectionId="sources"
+                  title={translate("newsPage_sources")}
+                  data={sources}
+                  defaultValue={source}
+                  updateSelectedValue={this.updateNewsParams}
+                  loadingSources={loadingSources}
+                  color="gold"
+                  disabledSection={this.disableFilterSection("sources")}
+                />
+              </SubMenu>
+            </Menu>
         </Layout>
         <Tabs
           defaultValue={tabNews}
