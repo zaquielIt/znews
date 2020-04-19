@@ -56,7 +56,7 @@ class Header extends React.Component {
         ) : null}
         <PageHeader
           //<i className="fa fa-exclamation-triangle" />
-          style={{ backgroundColor: "#FFFFFF", color: "rgba(0, 0, 0, 0.45)" }}
+          style={{ backgroundColor: "transparent", color: "rgba(0, 0, 0, 0.45)" }}
           className="site-page-header"
           title={
             <>

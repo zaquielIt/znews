@@ -1,7 +1,10 @@
 .ant-layout-sider-children {
-    background-color: #FFFFFF;
+    background-color: transparent;
     padding-top: 12px;
     /*border-bottom: 1px solid #f0f2f5;*/
+}
+.ant-layout-sider {
+    background-color: transparent !important;
 }
 
 .ant-timeline-item-last .ant-timeline-item-content{
