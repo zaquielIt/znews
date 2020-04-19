@@ -80,13 +80,13 @@ class NewsPage extends Component {
       category !== prevProps.category ||
       source !== prevProps.source ||
       tabNews !== prevProps.tabNews ||
-      tagsArticles !== prevProps.tagsArticles
+      tagsArticles.length !== prevProps.tagsArticles.length
     ) {
       //Update news or sources if user has updated one of the filters or tabs
       if (
         source !== prevProps.source ||
-        JSON.stringify(tagsArticles) !==
-          JSON.stringify(prevProps.tagsArticles) ||
+        tagsArticles.length !==
+          prevProps.tagsArticles.length ||
         tabNews !== prevProps.tabNews
       ) {
         if (loadingNews === prevProps.loadingNews) {
@@ -297,7 +297,7 @@ const mapStateToProps = (state) => ({
   loadingSources: state.newsReducer.loadingSources,
   loadingNews: state.newsReducer.loadingNews,
   tabNews: state.newsReducer.tabNews,
-  tagsArticles: state.newsReducer.tagsArticles,
+  tagsArticles: state.newsReducer.tagsArticles
 });
 
 //redux functions

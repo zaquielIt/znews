@@ -25,7 +25,7 @@ const CardNew = props => {
       >
         <Meta
           title={
-            <Tooltip title={card.title}>
+            <Tooltip title={card.title} placement="topLeft">
               <a href={card.url}>{card.title}</a>
             </Tooltip>
           }

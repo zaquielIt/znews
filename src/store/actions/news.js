@@ -181,7 +181,7 @@ export const getNews = (
           dispatch(getNewsSuccess(res.data));
         })
         .catch((error) => {
-          dispatch(getNewsFailed(error));
+          dispatch(getNewsFailed(tabNews,error));
         });
     }
   };

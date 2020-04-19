@@ -71,6 +71,7 @@ class Cards extends React.Component {
       errorArticles,
       translate,
     } = this.props;
+    
     return (
       <Tabs defaultActiveKey={defaultValue} onTabClick={this.tabChanged}>
         <TabPane
@@ -92,9 +93,10 @@ class Cards extends React.Component {
           {!errorTopNews ? (
             this.tabWithNews(loadingNews, news)
           ) : (
+
             <Alert
-              message={error.code}
-              description={error.message}
+              message={errorTopNews.code}
+              description={errorTopNews.response ? errorTopNews.response.data.message : errorTopNews.message}
               type="error"
             />
           )}
@@ -122,8 +124,8 @@ class Cards extends React.Component {
             </>
           ) : (
             <Alert
-              message={error.code}
-              description={error.message}
+              message={errorArticles.code}
+              description={errorArticles.response ? errorArticles.response.data.message : errorArticles.message}
               type="error"
             />
           )}

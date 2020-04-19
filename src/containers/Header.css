@@ -5,9 +5,11 @@
 .ant-page-header-ghost {
     height: inherit;
 }
-
+.site-page-header div{
+    color: rgba(0, 0, 0, 0.45);
+}
 .ant-progress-text {
-    color: #FFFFFF;
+    color: rgba(0, 0, 0, 0.45);
 }
 
 .ant-page-header-heading-extra {
@@ -15,5 +17,5 @@
 }
 
 .ant-statistic-content-value {
-    color: #FFFFFF;
+    color: rgba(0, 0, 0, 0.45);
 }

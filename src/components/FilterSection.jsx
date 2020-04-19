@@ -1,7 +1,7 @@
 //React imports
 import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 //Redux imports
 import { connect } from "react-redux";
@@ -41,9 +41,9 @@ class FilterSection extends React.Component {
       disabledSection,
       color,
       disabledES,
-      translate
+      translate,
     } = this.props;
-    
+
     return (
       <Menu mode="inline">
         <SubMenu
@@ -56,9 +56,7 @@ class FilterSection extends React.Component {
               {sectionId === "sources" && <DeploymentUnitOutlined />}
               <span style={{ marginRight: "5px" }}>{title}</span>
               {disabledSection.value ? (
-                <Tag color={color}>
-                  {disabledSection.msg}
-                </Tag>
+                <Tag color={color}>{disabledSection.msg}</Tag>
               ) : (
                 <Tag color={color}>{defaultValue}</Tag>
               )}
@@ -66,26 +64,43 @@ class FilterSection extends React.Component {
           }
         >
           {/*options list of the filter section*/}
-          {data && data.length === 0 ? (
+          {!data || (data && data.length === 0) ? (
             <Empty description={translate("newsPage_emptySources")}></Empty>
           ) : loadingSources && sectionId === "sources" ? (
             <Spin />
           ) : (
             <Radio.Group defaultValue={defaultValue} size="small">
-              {sectionId === "categories" || sectionId === "languages" ? null : (
-                <Radio.Button value="All" onChange={this.onChange} disabled={disabledSection.value || sectionId === "coronavirus"} style={{margin: '5px 5px 0px 0px'}}>
+              {sectionId === "categories" ||
+              sectionId === "languages" ? null : (
+                <Radio.Button
+                  value="All"
+                  onChange={this.onChange}
+                  disabled={
+                    disabledSection.value || sectionId === "coronavirus"
+                  }
+                  style={{ margin: "5px 5px 0px 0px" }}
+                >
                   All
                 </Radio.Button>
               )}
 
               {data.map((elem, pos) => (
-                <Tooltip key={`filterection-data-${pos}`} title={(disabledES && elem === "es") && translate("newsPage_filterDisabledNotTopNews")}>
+                <Tooltip
+                  key={`filterection-data-${pos}`}
+                  title={
+                    disabledES &&
+                    elem === "es" &&
+                    translate("newsPage_filterDisabledNotTopNews")
+                  }
+                >
                   <Radio.Button
                     key={title + "-" + pos}
                     value={sectionId === "sources" ? elem.id : elem}
                     onChange={this.onChange}
-                    disabled={disabledSection.value || (disabledES && elem === "es")}
-                    style={{margin: '5px 5px 0px 0px'}}
+                    disabled={
+                      disabledSection.value || (disabledES && elem === "es")
+                    }
+                    style={{ margin: "5px 5px 0px 0px" }}
                   >
                     {sectionId === "sources" ? elem.name : elem}
                   </Radio.Button>
@@ -106,11 +121,14 @@ FilterSection.propTypes = {
   updateSelectedValue: PropTypes.func,
   defaultValue: PropTypes.string,
   color: PropTypes.string,
-  disabledSection: PropTypes.shape({value: PropTypes.bool, msg: PropTypes.string})
-}
+  disabledSection: PropTypes.shape({
+    value: PropTypes.bool,
+    msg: PropTypes.string,
+  }),
+};
 
-const mapStateToProps = state => ({
-  translate: getTranslate(state.localize)
+const mapStateToProps = (state) => ({
+  translate: getTranslate(state.localize),
 });
 
 export default connect(mapStateToProps)(FilterSection);

@@ -1,6 +1,7 @@
 import { actions } from "store/actions/common";
 const initialState = {
-    languageApp: "en",
+  languageApp: "en",
+  valoration: null,
 };
 
 const saveStore = (state) => {
@@ -16,7 +17,15 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case actions.SET_LANGUAGE_APP:
       newState = {
+        ...state,
         languageApp: action.payload,
+      };
+      saveStore(newState);
+      return newState;
+    case actions.SET_VALORATION_APP:
+      newState = {
+        ...state,
+        valoration: action.payload,
       };
       saveStore(newState);
       return newState;
@@ -28,3 +37,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+

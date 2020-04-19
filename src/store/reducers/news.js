@@ -1,7 +1,7 @@
 import { actions } from "store/actions/news";
 const initialState = {
   compactmode: true,
-  tagsArticles: [],
+  tagsArticles: ["covid"],
   tabNews: "topNews",
   language: "en",
   country: "All",
