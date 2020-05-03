@@ -54,7 +54,7 @@ class FilterSection extends React.Component {
               {sectionId === "countries" && <GlobalOutlined />}
               {sectionId === "languages" && <FlagOutlined />}
               {sectionId === "sources" && <DeploymentUnitOutlined />}
-              <span style={{ marginRight: "5px" }}>{title}</span>
+              <span style={{ margin: "0px 5px 0px 10px" }}>{title}</span>
               {disabledSection.value ? (
                 <Tag color={color}>{disabledSection.msg}</Tag>
               ) : (
@@ -69,7 +69,7 @@ class FilterSection extends React.Component {
           ) : loadingSources && sectionId === "sources" ? (
             <Spin />
           ) : (
-            <Radio.Group defaultValue={defaultValue} size="small">
+            <Radio.Group value={defaultValue} size="small">
               {sectionId === "categories" ||
               sectionId === "languages" ? null : (
                 <Radio.Button

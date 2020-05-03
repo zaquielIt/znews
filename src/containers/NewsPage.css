@@ -24,3 +24,7 @@
 .ant-timeline-item-last {
     padding-bottom: 0px;
 }
+
+.ant-menu-submenu-title .anticon {
+    margin-right: 0px !important;
+}
