@@ -8,7 +8,7 @@ import { getTranslate } from "react-localize-redux";
 import { Layout } from "antd";
 
 //actions
-import { getCoronavirusInfo } from "store/actions/coronavirus";
+import { getCoronavirusInfoStart } from "store/actions/coronavirus";
 
 //Components
 import BarChart from "./graphics/BarChart";
@@ -49,7 +49,7 @@ class Covid19 extends React.Component {
     const { coronavirusInfo, loadingCovid, error, translate } = this.props;
     const { indexY } = this.state;
     
-    //claculate the maxIndex for the graphic
+    //calculate the maxIndex for the graphic
     let maxIndexYPos = 0;
     let maxIndexYValue = 0;
     indexY.forEach((index, pos) => {
@@ -84,7 +84,7 @@ class Covid19 extends React.Component {
                 <LineChart
                   data={indexY.length === 0 ? [] : coronavirusInfo}
                   indexY={indexY.length === 0 ? [] : indexY}
-                  maxIndexYPos={maxIndexYPos}
+                  maxIndexYValue={maxIndexYValue}
                 />
               )}
               {/* checkbox list to select the data showed in the graphic */}
@@ -172,7 +172,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCovidInfo: (country) => dispatch(getCoronavirusInfo(country)),
+  getCovidInfo: (country) => dispatch(getCoronavirusInfoStart(country)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Covid19);

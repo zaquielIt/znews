@@ -17,7 +17,7 @@ import {
 } from "store/actions/news";
 
 //import coronavirus actions
-import { getCoronavirusInfo } from "store/actions/coronavirus";
+import { getCoronavirusInfoStart } from "store/actions/coronavirus";
 
 //constants
 import { languages, countries, categories } from "constants/api";
@@ -192,11 +192,6 @@ class NewsPage extends Component {
     return disabledSection;
   };
 
-  preventDefault(e) {
-    e.preventDefault();
-    console.log("Clicked! But prevent default.");
-  }
-
   //render method
   render() {
     const {
@@ -232,7 +227,6 @@ class NewsPage extends Component {
                     color="cyan"
                     closable={country !== "All"}
                     onClose={(e) => {
-                      e.preventDefault();
                       this.updateNewsParams("countries", "All");
                     }}
                   >
@@ -242,7 +236,6 @@ class NewsPage extends Component {
                     color="purple"
                     closable={category !== "All"}
                     onClose={(e) => {
-                      e.preventDefault();
                       this.updateNewsParams("categories", "All");
                     }}
                   >
@@ -252,7 +245,6 @@ class NewsPage extends Component {
                     color="gold"
                     closable={source !== "All"}
                     onClose={(e) => {
-                      e.preventDefault();
                       this.updateNewsParams("sources", "All");
                     }}
                   >
@@ -339,7 +331,7 @@ const mapDispatchToProps = (dispatch) => ({
   setNewCategory: (newCategory) => dispatch(setCategory(newCategory)),
   setNewSource: (newSource) => dispatch(setSource(newSource)),
   setNewTab: (newTab) => dispatch(setTabnews(newTab)),
-  getCovidInfo: (country) => dispatch(getCoronavirusInfo(country)),
+  getCovidInfo: (country) => dispatch(getCoronavirusInfoStart(country)),
 });
 
 export default connect(

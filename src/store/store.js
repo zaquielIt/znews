@@ -1,4 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
+//Redux saga
+import createSagaMiddleware from 'redux-saga';
+import { watchCoronavirusData } from 'store/sagas/coronavirus'
 
 import { renderToStaticMarkup } from 'react-dom/server';
 import thunk from "redux-thunk";
@@ -17,20 +20,28 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null || compose;
 
+
+
 export default function configureStore() {
- const store = createStore(
+
+  const sagaMiddleware = createSagaMiddleware()
+  const middlewares = [sagaMiddleware, thunk];
+  const store = createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
+    composeEnhancers(applyMiddleware(...middlewares))
   );
-   const languages = [
+
+sagaMiddleware.run(watchCoronavirusData);
+
+  const languages = [
     { name: "English", code: "en" },
     { name: "Spanish", code: "es" },
   ];
-  
-  store.dispatch(initialize({ languages, options: {defaultLanguage: "en", renderToStaticMarkup} }));
+
+  store.dispatch(initialize({ languages, options: { defaultLanguage: "en", renderToStaticMarkup } }));
   store.dispatch(addTranslationForLanguage(EStranslations, "es"));
   store.dispatch(addTranslationForLanguage(ENtranslations, "en"));
-  
+
 
   return store;
 }
